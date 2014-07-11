@@ -10,7 +10,7 @@ For windows:
 
 2. copy vim config files from github
     
-git clone https://github.com/bmschulz/dotvim.git
+    git clone https://github.com/bmschulz/dotvim.git
 
 3. move and rename files
 
