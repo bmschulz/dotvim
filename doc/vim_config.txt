@@ -1,0 +1,265 @@
+vim_config.txt	Documentation for my vim configuration
+
+==============================================================================
+INTRODUCTION                                                    *vim_config*
+
+This is my vim configuration created to suit my personal tastes and improve my
+hdl workflow.  I primarily use VHDL but over time many of the VHDL features
+will be expanded for verilog and systemverilog. If I'm ever feeling
+particularly ambitious, some of the functions may find their way into a
+separate plugin.
+
+This configuration has been tested in gvim for Win32 and linux.
+
+1. Features			|vim_config-features|
+2. Plugins			|vim_config-plugins|
+3. Tools			|vim_config-tools|
+4. Installation			|vim_config-install|
+5. Cheatsheet			|vim_config-cheat|
+6. License			|vim_config-license|
+
+==============================================================================
+FEATURES                                               *vim_config-features*
+
+*  Template for new vhdl files with code folding
+*  Abbreviations for commonly used vhdl snippets
+*  Automatically updating last modified header field, revision date and
+   revision time registers
+*  Comment/Uncomment selection for a variety of file types.
+*  Tag hdl files for fast design navigation
+*  Generate Testbench template for vhdl file
+*  Generate Modelsim script .do template for vhdl testbench
+*  For details of all settings see the vimrc file.  I've tried to comment it
+   so it is easy to read
+*  Note: Modifications are required if a format is used other than that found
+   in the vhdl template skeleton.vhd or if a folder structure other than the
+   one listed below is used in order to support some features.
+
+   Project folder structure:
+      project/
+        SOURCE/
+          constraint/  	timing, placement, & pin constraints
+          debug/       	chipscope & signaltap files
+          hdl/	       	source files
+          ip/	       	third party IP
+          model/       	models for test
+          tb/	       	testbench files
+          work/	       	modelsim work directory
+          tags	       	ctags created tag files
+
+*  Note: Working directory should always be set to SOURCE
+
+==============================================================================
+PLUGINS                                                 *vim_config-plugins*
+
+airline - a clean, configurable statusline
+	Modified for colors - bsbase16.vim
+	http://www.vim.org/scripts/script.php?script_id=4661
+	version 0.5 - 10 Sep 2013
+
+autoclose - insert matching bracket, paren, or quote
+	Modified to exclude braces {}. Annoying for marker type folding
+	Modified to expand abbreviations before (
+	http://www.vim.org/scripts/script.php?script_id=1849
+	version 1.2 - 18 June 2009
+
+ctrlp - fuzzy finder for files, directories, tags, buffers, etc
+	https://github/kien/ctrlp.vim
+	version 1.79 - 29 January 2013
+
+highlights - allows highlighting of multiple keywords using the numpad
+	Modified highlights.csv to match color scheme
+	http://vim.wikia.com/wiki/Highlight_multiple_words
+	version 2008-11-19
+
+indent_guides - display indent level
+	http://www.vim.org/scripts/script.php?script_id=3361
+	version 1.7 - 7 March 2013
+
+pathogen - helps to organize your plugins  
+	https://github.com/tpope/vim-pathogen
+	version 2.2
+
+startify - custom start screen when you start vim without a file
+	http://www.vim.org/scripts/script.php?script_id=4544
+	version 1.8
+
+vip - VHDL Interface Plugin.  
+	There are many built in features but I primarily use it to capture a
+	vhdl entity and paste it as an instance.  I've modified this plugin as
+	follows:
+
+	1. include 'entity work.' in instance pasting to eliminate the need
+	for component declaration.  This has the side effect of breaking some
+	of the other features that I don't use.  
+
+	2. when yanking an entity with ports beginning with i_, o_, or b_, the
+	prefix is removed for the signal assignment.
+
+	3. when pasting an instance, the signal width is appended as a
+	comment. This only works for std_logic, and std_logic_vector.
+
+	http://www.vim.org/scripts/script.php?script_id=3335
+	version 1.2.0 - 12 Dec 2010
+
+I'm using the colors from base16 colorscheme, but I've switched them around
+	https://github.com/chriskempson/base16
+
+==============================================================================
+TOOLS                                                     *vim_config-tools*
+
+I use the following tools in addition to Vim:
+
+Exuberant Ctags - Creates tags to enable quick jumps around your project.
+	For example from a vhdl instance to its corresponding entity or from a
+	function call to the function definition, etc.  I use this mainly for
+	verilog and vhdl files but there are 41 supported programming
+	languages.
+		ctags.sourceforge.net
+
+Autohotkey - Allows remapping of keyboard keys for windows without registry
+	modifications.  I use this to change the behavior of the capslock key.
+	If capslock is pressed and released, it sends an <Esc>.  If capslock
+	is pressed and held while another character is pressed, it sends a
+	<Ctrl>.
+		www.autohotkey.com
+
+Modelsim - Industry standard hdl simulation tool.
+		http://www.mentor.com/products/fv/modelsim/
+
+==============================================================================
+INSTALLATION                                            *vim_config-install*
+
+TBD
+
+==============================================================================
+CHEATSHEET                                          *vim_config-cheat* *cheat*
+
+This section provides a reminder about native, custom, and plugin added
+features I'd like to remember.  Modify this list as you see fit.
+
+FILES~
+,ss		save session
+,ls		load session
+,P		print a hard copy
+got		open terminal at current file location
+goT		open terminal at current working directory
+gof		open file browser at current file location
+goF		open file browser at current working directory
+
+BUFFERS~
+,b		start CTRLP navigator in buffer mode
+CTRL- <SPACE> 	next buffer (:bn)
+:bd		delete buffer
+
+CTRLP~
+CTRL-p		start CTRLP navigator	
+CTRL-j	CTRL-k	navigate down/up ctrlp list
+CTRL-t		open selection in new tab
+CTRL-v		open selection in new vertical split
+<F5>		refresh cache
+CTRL-f		change mode - file, directory, buffer, tag browser
+CTRL-d		toggle full path
+
+EDIT~
+,y		yank to system clipboard
+,p		paste from system clipboard
+,c		comment selection or line
+,x		uncomment selection or line
+ALT-a	ALT-x	increment/decrement number at cursor (hex identifier 0x)
+ALT-H	ALT-h	hex increment/decrement number at cursor for hdl
+ALT-_		add underscores every 4 chars for hex number at cursor for hdl
+CTRL-j	CTRL-k	move line or selection down/up
+
+INSERT~
+CTRL-t	CTRL-d	insert/remove tab in current line
+CTRL-w		delete word before cursor
+CTRL-u		delete line before cursor
+
+AUTOCOMPLETE~
+CTRL- <SPACE>	autocomplete word
+CTRL-l		autocomplete line
+CTRL-f		autocomplete filename
+
+SEARCH~
+,gW	,gw	grep word under cursor in all files (hdl only)
+,gE	,ge	grep expression in all files (hdl only)
+,gS	,gs	grep selection in all files (hdl only)
+/\<T	/T\>	words that start (end) with T
+/^T	/T$	lines that start (end) with T
+/.	/\.	single character wildcard (literal .)
+/\CT		case sensitive search for T
+,<SPACE>	clear highlight
+
+REPLACE~
+:[range]s/old/new/g	replace all occurences of old with new in [range]
+
+JUMPS~
+z<CR>		position current line at top of screen
+<Tab>	<S-Tab>	JUMPS list forward (back)
+g,	g;	CHANGE list newer (older)
+<C-]>	<C-\>	TAG list forward (back)
+<C-w>]		TAG list in new  vertical split
+%		Go to the matching brace, parenthesis, keyword
+
+FOLDING~
+<Space>		toggle fold 
+,z		focus the current line by folding all other folds
+zr	zR	open all folds by 1 fold level (open all folds)
+zm	zM	close all folds by 1 fold level (close all folds)
+zj	zk	next (previous) fold
+[z	]z	move to start (end) of current fold
+zf		create fold around current selection
+
+ALIGN~
+<A-:>{column}<CR>	align : ; , < ( ) ' " at (column) for selected lines
+,=			reindent file
+,C	,w		toggle color column(s) (toggle line wrap)
+,ac			toggle autoclose
+,av			align vhdl entity, component, instance
+,as			align vhdl signals and constants
+,ic			toggle invisible characters
+
+MACRO~
+qa	q	begin (end) recording macro in reg a
+@a		run macro in reg a
+
+ABBREVIATIONS~
+sl		std_logic
+slv		std_logic_vector
+zoth		(others => '0')
+new_process	template for a new process with clock and synchronous reset
+new_instance	template for a new instance with clock and reset
+new_sm		template for a new state machine composed of 3 processes
+
+USER ADDED FUNCTIONS~
+:fcd		change dir to that of current file
+:fcdt		change dir to root if tags file exists (otherwise same as fcd)
+:dos2unix	delete DOS carriage returns ^M
+:del_ws		delete spaces and tabs at the end of lines in entire file
+:[range]del_bl	delete blank lines in selection (defaults to entire file)
+:Ctags		create tag file for current directory - vhdl & verilog only
+<A-s><CR>	create std_logic signal declaration for word under cursor
+<A-s>{number}<CR>
+		create std_logic_vector signal declaration {number} downto 0
+<A-s>(signal range)<CR>
+		create std_logic_vector signal declaration with (signal range)
+:Testbench {arg}<CR>
+  create testbench from current vhdl file with name tb_[vhdl_entity]{arg}.vhd
+:ModelsimScript {arg}<CR>
+  create modelsim script for the current testbench with the name
+  tb\tb_[vhdl_entity]_run.do.  {arg} is the directory for source files to add
+  to the script. For example, :ModelsimScript hdl\module<CR> will add the
+  testbench and all .vhd, .v, and .sv files from source\hdl\module directory.
+  If {arg} is omitted, the script will default to hdl directory.
+
+VHDL PLUGIN~
+:Viy		Yank entity under cursor
+:Vii		Insert instance of yanked entity
+
+==============================================================================
+LICENSE                                                 *vim_config-license*
+
+MIT License.  Copyright © 2014 Brandon Schulz.
+
+ vim:tw=78:ts=8:ft=help:norl:

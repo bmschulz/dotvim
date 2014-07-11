@@ -1,0 +1,9 @@
+hlnum,ctermfg,ctermbg,guifg,guibg
+1,white,,#ffffff,#d28445
+2,white,,#ffffff,#75b5aa
+3,white,,#ffffff,#aa759f
+4,white,brown,#ffffff,#8f5536
+5,white,green,#ffffff,#90a959
+6,black,yellow,#000000,#f4bf75
+7,white,blue,#ffffff,#6a9fb5
+8,white,red,#ffffff,#ac4142
