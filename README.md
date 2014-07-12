@@ -16,7 +16,7 @@ For windows:
 
     move-item dotvim "c:\program files (x86)\vim\vimfiles"
     
-    move-item "c:\program files (x86)\vim\vimfiles\vimrc" "c:\program files (x86)\vim\_vimrc"
+    move-item "c:\program files (x86)\vim\vimfiles\vimrc" "c:\program files (x86)\vim\\_vimrc"
     
 
 For linux:
