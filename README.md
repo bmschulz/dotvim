@@ -15,6 +15,7 @@ For windows:
 3. move and rename files
 
     move-item dotvim "c:\program files (x86)\vim\vimfiles"
+    
     move-item "c:\program files (x86)\vim\vimfiles\vimrc" "c:\program files (x86)\vim\_vimrc"
     
 
