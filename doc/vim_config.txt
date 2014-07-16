@@ -130,7 +130,20 @@ Modelsim - Industry standard hdl simulation tool.
 ==============================================================================
 INSTALLATION                                            *vim_config-install*
 
-TBD
+Windows:
+1. backup your vim files
+2. copy vim config files from github
+	git clone https://github.com/bmschulz/dotvim.git
+3. move and rename files
+	move-item dotvim "c:\program files(x86)\vim\vimfiles"
+	move-item "c:\program files(x86)\vim\vimfiles\vimrc" "c:\program files (x86)\vim\_vimrc"
+	
+Linux:
+1. backup your vim files
+2. copy vim config files from github
+	git clone https://github.com/bmschulz/dotvim.git
+3. move and rename files
+	mv dotvim .vim
 
 ==============================================================================
 CHEATSHEET                                          *vim_config-cheat* *cheat*
@@ -260,6 +273,6 @@ VHDL PLUGIN~
 ==============================================================================
 LICENSE                                                 *vim_config-license*
 
-MIT License.  Copyright © 2014 Brandon Schulz.
+MIT License.  Copyright ï¿½ 2014 Brandon Schulz.
 
  vim:tw=78:ts=8:ft=help:norl:
