@@ -1,10 +1,13 @@
 dotvim
 ======
 
-vim config
+###For details about this configuration, see [doc/vim_config.txt](doc/vim_config.txt)
 
 
-For windows:
+#####Installation Instructions
+
+
+######For windows:
 
 1. backup your vim files
 
@@ -19,7 +22,7 @@ For windows:
     move-item "c:\program files (x86)\vim\vimfiles\vimrc" "c:\program files (x86)\vim\\_vimrc"
     
 
-For linux:
+######For linux:
 
 1. backup your vim files
 
@@ -32,4 +35,3 @@ For linux:
     mv dotvim .vim
 
 
-For details about this configuration, see doc/vim_config.txt
