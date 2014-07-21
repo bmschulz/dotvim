@@ -39,16 +39,25 @@ endfunction
 function! airline#extensions#tabline#load_theme(palette)
   let colors    = get(a:palette, 'tabline', {})
   let l:tab     = get(colors, 'airline_tab', a:palette.normal.airline_b)
-  let l:tabsel  = get(colors, 'airline_tabsel', a:palette.normal.airline_a)
-  let l:tabtype = get(colors, 'airline_tabtype', a:palette.visual.airline_a)
+"  let l:tabsel  = get(colors, 'airline_tabsel', a:palette.normal.airline_a)
+  let g:airline_colors_tabsel_buffer  = get(colors, 'airline_tabsel', a:palette.normal.airline_a)
+  let g:airline_colors_tabsel_tab  = get(colors, 'airline_tabsel', a:palette.replace.airline_a)
+"  let l:tabtype = get(colors, 'airline_tabtype', a:palette.visual.airline_a)
+  let g:airline_colors_tabtype_buffer = get(colors, 'airline_tabtype', a:palette.normal.airline_a)
+  let g:airline_colors_tabtype_tab = get(colors, 'airline_tabtype', a:palette.replace.airline_a)
   let l:tabfill = get(colors, 'airline_tabfill', a:palette.normal.airline_c)
-  let l:tabmod  = get(colors, 'airline_tabmod', a:palette.insert.airline_a)
+"  let l:tabmod  = get(colors, 'airline_tabmod', a:palette.insert.airline_a)
+  let g:airline_colors_tabmod_buffer  = get(colors, 'airline_tabmod', a:palette.insert.airline_a)
+  let g:airline_colors_tabmod_tab  = get(colors, 'airline_tabmod', a:palette.replace.airline_a)
   let l:tabhid  = get(colors, 'airline_tabhid', a:palette.normal.airline_c)
   call airline#highlighter#exec('airline_tab', l:tab)
-  call airline#highlighter#exec('airline_tabsel', l:tabsel)
-  call airline#highlighter#exec('airline_tabtype', l:tabtype)
+"  call airline#highlighter#exec('airline_tabsel', l:tabsel)
+  call airline#highlighter#exec('airline_tabsel', g:airline_colors_tabsel_buffer)
+"  call airline#highlighter#exec('airline_tabtype', l:tabtype)
+  call airline#highlighter#exec('airline_tabtype', g:airline_colors_tabtype_buffer)
   call airline#highlighter#exec('airline_tabfill', l:tabfill)
-  call airline#highlighter#exec('airline_tabmod', l:tabmod)
+"  call airline#highlighter#exec('airline_tabmod', l:tabmod)
+  call airline#highlighter#exec('airline_tabmod', g:airline_colors_tabmod_buffer)
   call airline#highlighter#exec('airline_tabhid', l:tabhid)
 endfunction
 
@@ -67,8 +76,14 @@ endfunction
 
 function! airline#extensions#tabline#get()
   if s:show_buffers && tabpagenr('$') == 1
+    call airline#highlighter#exec('airline_tabtype', g:airline_colors_tabtype_buffer)
+    call airline#highlighter#exec('airline_tabsel', g:airline_colors_tabsel_buffer)
+    call airline#highlighter#exec('airline_tabmod', g:airline_colors_tabmod_buffer)
     return s:get_buffers()
   else
+    call airline#highlighter#exec('airline_tabtype', g:airline_colors_tabtype_tab)
+    call airline#highlighter#exec('airline_tabsel', g:airline_colors_tabsel_tab)
+    call airline#highlighter#exec('airline_tabmod', g:airline_colors_tabmod_tab)
     return s:get_tabs()
   endif
 endfunction
