@@ -5,18 +5,6 @@
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
 " }}}
-" TO DO  =================================================================== {{{
-
-" Goals = optimize hdl environment to minimize errors and increase coding speed
-" Publish configuration
-"
-" Tasks
-"	Publish / Version control vim configuration
-"		Alpha release
-"			Link to original plugin repositories on github
-"			Test download from scratch for both linux and windows
-"		Add installation instruction to help file
-" }}}
 " ENVIRONMENT SETTINGS ===================================================== {{{
 
 " Use Vim settings, rather than Vi settings
@@ -137,7 +125,7 @@ nnoremap <silent> <leader>w :set wrap!<CR>
 
 " List Mode
 set nolist
-set listchars=tab:>=,eol:¬,extends:>,precedes:<,trail:?
+set listchars=tab:>=,eol:ï¿½,extends:>,precedes:<,trail:?
 " Toggles invisible characters
 nnoremap <silent> <leader>ic :set nolist!<CR>
 
