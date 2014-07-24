@@ -274,6 +274,6 @@ VHDL PLUGIN~
 ==============================================================================
 LICENSE                                                 *vim_config-license*
 
-MIT License.  Copyright � 2014 Brandon Schulz.
+MIT License.  Copyright © 2014 Brandon Schulz.
 
  vim:tw=78:ts=8:ft=help:norl:
