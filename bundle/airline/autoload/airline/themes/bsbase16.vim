@@ -103,7 +103,10 @@ if !get(g:, 'loaded_ctrlp', 0)
   finish
 endif
 let g:airline#themes#bsbase16#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(
-      \ [ '#d7d7ff' , '#5f00af' , 189 , 55  , ''     ],
-      \ [ '#ffffff' , '#875fd7' , 231 , 98  , ''     ],
-      \ [ '#5f00af' , '#ffffff' , 55  , 231 , 'bold' ])
+      \ [ '#ffffff' , '#444444' , 231 , 98  , ''     ],
+      \ [ '#6a9fb5' , '#202020' , 55  , 231 , ''     ],
+	\ [ '#202020' , '#6a9fb5' , 189 , 55  , 'bold' ])
 
+"      \ [ '#d7d7ff' , '#5f00af' , 189 , 55  , ''     ],
+"      \ [ '#ffffff' , '#875fd7' , 231 , 98  , ''     ],
+"      \ [ '#5f00af' , '#ffffff' , 55  , 231 , 'bold' ])
