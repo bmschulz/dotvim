@@ -125,7 +125,7 @@ nnoremap <silent> <leader>w :set wrap!<CR>
 
 " List Mode
 set nolist
-set listchars=tab:>=,eol:�,extends:>,precedes:<,trail:?
+set listchars=tab:>=,eol:¬,extends:>,precedes:<,trail:?
 " Toggles invisible characters
 nnoremap <silent> <leader>ic :set nolist!<CR>
 
