@@ -234,6 +234,7 @@ augroup filetype_text
 	autocmd!
 	autocmd BufEnter,BufWrite *.txt setfiletype text
 	autocmd FileType text setlocal textwidth=80
+	autocmd FileType text setlocal formatoptions=want
 augroup END " }}}
 " Vim file specific ======================================================== {{{
 augroup filetype_vim
@@ -795,7 +796,7 @@ function! s:quickfix_settings()
 	nnoremap <buffer> <ESC> :q<CR>
 endfunction " }}}
 " Do files ================================================================= {{{
-augroup filetype_text
+augroup filetype_tcl
 	autocmd!
 	autocmd BufEnter,BufWrite *.do setfiletype tcl
 	autocmd BufEnter,BufWrite *.do set foldlevelstart=0
