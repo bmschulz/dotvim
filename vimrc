@@ -234,7 +234,8 @@ augroup filetype_text
 	autocmd!
 	autocmd BufEnter,BufWrite *.txt setfiletype text
 	autocmd FileType text setlocal textwidth=80
-	autocmd FileType text setlocal formatoptions=want
+	autocmd FileType text setlocal formatoptions=wantq
+	autocmd FileType text setlocal autoindent
 augroup END " }}}
 " Vim file specific ======================================================== {{{
 augroup filetype_vim
