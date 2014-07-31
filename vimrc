@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	05 May 2014  04:13PM
+"  Last Modified:	31 Jul 2014  03:50PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
