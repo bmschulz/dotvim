@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	31 Jul 2014  03:50PM
+"  Last Modified:	25 Sep 2014  09:21AM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -519,7 +519,7 @@ autocmd Filetype vhdl :command! -buffer SignalFormat
 			\|:silent execute 'normal V]z<Esc>'
 			\|:let SignalRegion=getline(line("'<"),line("'>"))
 			\|:let SignalRange="<args>"
-			\|:if match(SignalRegion, "^\\s*signal\\s*".NewSignal) > 0
+			\|:if match(SignalRegion, "^\\s*signal\\s*".NewSignal."\\s\+") > 0
 			\|	:echo "signal already exists"
 			\|:elseif match(SignalRange, "\\d$") >= 0
 			\|	:silent execute 'normal `>Osignal '.NewSignal.'	:	std_logic_vector('.SignalRange.' downto 0);<Esc>'
