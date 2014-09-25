@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	25 Sep 2014  09:21AM
+"  Last Modified:	25 Sep 2014  12:27PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -529,6 +529,17 @@ autocmd Filetype vhdl :command! -buffer SignalFormat
 			\|	:silent execute 'normal `>Osignal '.NewSignal.'	:	std_logic;<Esc>'
 			\|:endif
 			\|:execute 'normal `z, '
+
+" }}}
+" Add fold with common formatting ========================================== {{{
+	autocmd FileType vhdl :command! -buffer -nargs=1 -range Fold 
+			\:let FoldName="<args>"
+			\|:let FoldNameLength=strlen(FoldName)
+			\|:let LeadingChars=(80 - FoldNameLength) / 2 - 1
+			\|:let TrailingChars=(77 - FoldNameLength) / 2 - 2
+			\|:execute 'normal '.<line2>.'Go<Esc>77i-<Esc>3a}<Esc>'
+			\|:execute 'normal '.<line1>.'GO<Esc>'.LeadingChars.'i-<Esc>a <Esc>'
+			\|:execute 'normal a'.FoldName.' <Esc>'.TrailingChars.'a-<Esc>3a{<Esc>'
 
 " }}}
 " Create testbench ========================================================= {{{
