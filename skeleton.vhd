@@ -1,7 +1,7 @@
 --------------------------------- FILE HEADER -------------------------------{{{
 --
 -- File:			[:VIM_EVAL:]expand("%:t")[:END_EVAL:]
--- Last Modified:	04 Apr 2014  02:51PM
+-- Last Modified:	26 Sep 2014  01:19PM
 --
 -- Module Description
 --
@@ -12,7 +12,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 --use ieee.numeric_std.all;
---use ieee.std_logic_unsigned.all;
 --------------------------------------------------------------------------}}}}}}
 
 ------------------------------------ ENTITY ---------------------------------{{{
@@ -37,9 +36,6 @@ architecture behavioral of [:VIM_EVAL:]expand("%:t:r")[:END_EVAL:] is
 --type state_type is (IDLE, RUN);
 --signal NEXT_STATE		: state_type := IDLE;
 --signal STATE			: state_type := IDLE;
-
---attribute dont_touch : string;
---attribute dont_touch of signal_name		: signal is "true";
 -----------------------------------------------------------------------------}}}
 
 begin
