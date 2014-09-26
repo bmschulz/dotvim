@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	25 Sep 2014  12:27PM
+"  Last Modified:	25 Sep 2014  05:03PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -307,7 +307,7 @@ augroup filetype_vhdl
 				\|:execute 'normal `<'
 				\|:let InstanceCheck = search('map', 'bn', line("."))
 				\|:if InstanceCheck == 0
-				\|	:let EntityCheck = search('port', 'bn', line("."))
+				\|	:let EntityCheck = search('port\|generic', 'bn', line("."))
 				\|:else
 				\|	:let EntityCheck = 0
 				\|:endif
