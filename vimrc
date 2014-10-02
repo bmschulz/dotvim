@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	25 Sep 2014  05:03PM
+"  Last Modified:	01 Oct 2014  06:02PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -955,7 +955,8 @@ command! Ctags
 			\|:redraw!
 			\|:split tags
 			\|:silent %s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/
-			\|:silent wq! tags.vim
+			\|:silent w! tags.vim
+			\|:silent bd!
 			\|:silent tabdo windo if((&filetype == 'vhdl') || (&filetype == 'verilog_systemverilog')) 
 			\|	:silent source tags.vim
 			\|:endif
