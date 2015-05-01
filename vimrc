@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	01 Oct 2014  06:02PM
+"  Last Modified:	01 May 2015  10:20AM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -75,6 +75,12 @@ set autoread
 set notimeout
 set ttimeout
 set ttimeoutlen=10
+
+" Enable hidden buffers
+set hidden
+
+" Use * clipboard register for actions which normally use the unnamed register
+set clipboard=unnamed
 
 " }}}
 " DISPLAY SETTINGS ========================================================= {{{
@@ -931,6 +937,9 @@ nnoremap <C-right> :tabmove +1<CR>
 " Buffer related mappings
 nnoremap <C-space> :bn<CR>
 
+" Delete buffer but don't close window
+command! BD :bn|:bd#
+
 " Keep cursor in the middle of the window when jumping in TAG LIST
 " when creating a new split, split vertically
 nnoremap <C-w>] <C-w>]<C-w>Lzvzz15
@@ -1340,6 +1349,8 @@ function! GenerateCommentString()
 	set commentstring=\/\/%s
   elseif &filetype == 'vim'
 	set commentstring=\ \"%s
+  elseif ext == 'm'
+  	set commentstring=\ \%%s	
   endif
 endfunction " }}}
 " Comment and Uncomment a block of text ==================================== {{{
@@ -1359,6 +1370,8 @@ function! Visual_comment()
 	silent s:^:\#:g
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
 	silent s:^:\/\/:g
+  elseif ext == 'm'
+	silent s:^:\%:g
   endif
 endfunction
 
@@ -1378,6 +1391,8 @@ function! Visual_uncomment()
 	silent! s:^\#::g
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
 	silent! s:^\/\/::g
+  elseif ext == 'm'
+	silent! s:^\%::g
   endif
 endfunction " }}}
 " Update module date after each save ======================================= {{{
