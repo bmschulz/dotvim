@@ -26,7 +26,7 @@ dotvim
 
 1. backup your vim files
 
-2. copy vim config files from github
+2. copy vim config files from github.  From the home directory type:
     
         git clone https://github.com/bmschulz/dotvim.git    
 
