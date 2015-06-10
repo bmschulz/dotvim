@@ -238,7 +238,7 @@ set foldtext=MyFoldText()
 " For all text files set 'textwidth' to 80 characters.
 augroup filetype_text
 	autocmd!
-	autocmd BufEnter,BufWrite *.txt setfiletype text
+	autocmd BufRead,BufNewFile,BufWrite *.txt setfiletype text
 	autocmd FileType text setlocal textwidth=80
 	autocmd FileType text setlocal formatoptions=wantq
 	autocmd FileType text setlocal autoindent
