@@ -1214,11 +1214,6 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " }}}
-" AUTOCLOSE ================================================================ {{{
-
-nmap <Leader>ac <Plug>ToggleAutoCloseMappings
-
-" }}}
 " CTRLP ==================================================================== {{{
 "
 " set the maximum height of the match window
