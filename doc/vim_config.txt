@@ -163,14 +163,13 @@ goF		open file browser at current working directory
 
 BUFFERS~
 ,b		start CTRLP navigator in buffer mode
-CTRL-h CTRL-l 	previous/next buffer (:bp/:bn)
+CTRL-h	CTRL-l 	previous/next buffer (:bp/:bn)
 :bd		delete buffer
 :BD		delete buffer but preserve window
 
 CTRLP~
 CTRL-p		start CTRLP navigator	
 CTRL-j	CTRL-k	navigate down/up ctrlp list
-CTRL-t		open selection in new tab
 CTRL-v		open selection in new vertical split
 <F5>		refresh cache
 CTRL-f		change mode - file, directory, buffer, tag browser
@@ -228,7 +227,6 @@ ALIGN~
 ,=		reindent file
 ,C		toggle color column(s)
 ,w		toggle line wrap
-,ac		toggle autoclose
 ,av		align vhdl entity, component, instance
 ,as		align vhdl signals and constants
 ,ic		toggle invisible characters
@@ -262,7 +260,7 @@ USER ADDED FUNCTIONS~
   file will be located in source\tb\{path}\
 :ModelsimScript {source}<CR>
   create modelsim script for the current testbench at testcase\{path}\run.do
-  {source} is the directory of source files to add to the script.  For example,
+  {source} is the directory of source files to add to the script. For example,
   :ModelsimScript hdl\module<CR> will add the testbench and all .vhd, .v,
   and .sv files from source\hdl\module directory.
   If {source} is omitted, the script will default to hdl directory.
