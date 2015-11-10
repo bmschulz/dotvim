@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	01 May 2015  10:20AM
+"  Last Modified:	10 Nov 2015  10:53AM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -87,7 +87,7 @@ set clipboard=unnamed
 
 " Enable tab pages, disable other gui clutter.
 " The 'e' is superceded by g:airline#extensions#tabline#enabled = 1
-set guioptions=e
+set guioptions=
 
 " Enable syntax
 syntax on
@@ -549,16 +549,16 @@ autocmd Filetype vhdl :command! -buffer SignalFormat
 
 " }}}
 " Create testbench ========================================================= {{{
-autocmd Filetype vhdl :command! -buffer -nargs=? Testbench 
+autocmd Filetype vhdl :command! -buffer -nargs=1 Testbench 
 			\:let vhd_filename = tolower(expand("%:t:r"))
 			\|:let tb_filename = "tb_".vhd_filename
 			\|:silent execute 'normal /\C^\s\=entity<CR>'
 			\|:silent execute 'normal :Viy<CR>'
 			\|:silent execute 'normal , '
-			\|:if filereadable('tb/'.tb_filename."<args>".".vhd")
+			\|:if filereadable('tb/<args>/'.tb_filename.".vhd")
 			\|	:echo "filename already exists"
 			\|:else
-			\|	:silent execute 'normal :vsplit tb/'.tb_filename."<args>".".vhd".'<CR>'
+			\|	:silent execute 'normal :vsplit tb/<args>/'.tb_filename.".vhd".'<CR>'
 			\|	:silent execute 'normal gg/\C^\s\=entity<CR>'
 			\|	:silent execute 'normal j0d/\s\=port<CR>'
 			\|	:silent execute 'normal d%dd'
@@ -606,13 +606,16 @@ autocmd Filetype vhdl :command! -buffer -nargs=? ModelsimScript
 			\:let tb_filename = tolower(expand("%"))
 			\|:let run_filename = tolower(expand("%:t:r"))
 			\|:let source_path = escape('<args>', ' \')
+			\|:cd tb
+			\|:let tb_path = tolower(expand("%:h"))
+			\|:cd ..
 			\|:if empty(source_path)
 			\|	:let source_path = 'hdl'
 			\|:endif
-			\|:if filereadable('tb/'.run_filename.'_run.do')
+			\|:if filereadable('../testcase/'.tb_path.'/run.do')
 			\|	:echo "file already exists"
 			\|:else
-			\|	:silent execute 'normal :vsplit tb/'.run_filename.'_run.do<CR>'
+			\|	:silent execute 'normal :vsplit ../testcase/'.tb_path.'/run.do<CR>'
 			\|	:if has('win32')
 			\|		:read $VIM\vimfiles\ModelsimTemplate.do
 			\|	:else
@@ -628,21 +631,21 @@ autocmd Filetype vhdl :command! -buffer -nargs=? ModelsimScript
 			\|	:silent execute 'normal /\C^# SIMULATION SOURCE<CR>j'
 			\|	:while (match(getline("."), "# }}") == -1)
 			\|		:if (match(getline("."),"[.]vhd$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivcom -work work -2008 -explicit		<Esc>j'
+			\|			:silent execute 'normal 0d/source<CR>dwxivcom -work work -2008 -explicit		../../source/<Esc>j'
 			\|		:elseif (match(getline("."),"[.]v$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo		<Esc>j'
+			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo		../../source/<Esc>j'
 			\|		:elseif (match(getline("."),"[.]sv$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo -sv	<Esc>j'
+			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo -sv	../../source/<Esc>j'
 			\|		:else
 			\|			:delete
 			\|		:endif
 			\|	:endwhile
 			\|	:if (match(tb_filename,"[.]vhd$") >= 0)
-			\|		:silent execute 'normal O<C-u>vcom -work work -2008 -explicit		'.tb_filename.'<CR><Esc>'
+			\|		:silent execute 'normal O<C-u>vcom -work work -2008 -explicit		../../source/'.tb_filename.'<CR><Esc>'
 			\|	:elseif (match(tb_filename,"[.]v$") >= 0)
-			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo		'.tb_filename.'<CR><Esc>'
+			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo		../../source/'.tb_filename.'<CR><Esc>'
 			\|	:elseif (match(tb_filename,"[.]sv$") >= 0)
-			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo -sv	'.tb_filename.'<CR><Esc>'
+			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo -sv	../../source/'.tb_filename.'<CR><Esc>'
 			\|	:endif
 			\|	:silent execute 'normal /\C^# INITIATE SIMULATION<CR>j'
 			\|	:while (match(getline("."), "# }}") == -1)
@@ -928,14 +931,16 @@ noremap L $
 vnoremap L g_
 
 " Tab related mappings
-nnoremap <C-t> :tabnew<CR>
-nnoremap <C-h> :tabprev<CR>
-nnoremap <C-l> :tabnext<CR>
-nnoremap <C-left> :tabmove -1<CR>
-nnoremap <C-right> :tabmove +1<CR>
+"nnoremap <C-t> :tabnew<CR>
+"nnoremap <C-h> :tabprev<CR>
+"nnoremap <C-l> :tabnext<CR>
+"nnoremap <C-left> :tabmove -1<CR>
+"nnoremap <C-right> :tabmove +1<CR>
 
 " Buffer related mappings
 nnoremap <C-space> :bn<CR>
+nnoremap <C-h> :bp<CR>
+nnoremap <C-l> :bn<CR>
 
 " Delete buffer but don't close window
 command! BD :bn|:bd#
@@ -944,7 +949,7 @@ command! BD :bn|:bd#
 " when creating a new split, split vertically
 nnoremap <C-w>] <C-w>]<C-w>Lzvzz15
 nnoremap <C-]> <C-]>zvzz15
-nnoremap <C-\> <C-T>zvzz15
+nnoremap <C-t> <C-T>zvzz15
 
 " Keep cursor in the middle of the window when jumping in JUMP LIST
 nnoremap <Tab> <C-I>zvzz15
@@ -972,11 +977,11 @@ command! Ctags
 			\|:noh
 
 " Scroll inactive window
-nnoremap <A-Y> <C-Y>
-nnoremap <silent> <A-j> :call ScrollOtherWindow("down")<CR>
-nnoremap <silent> <A-k> :call ScrollOtherWindow("up")<CR>
-nnoremap <silent> <A-f> :call ScrollOtherWindow("pagedown")<CR>
-nnoremap <silent> <A-b> :call ScrollOtherWindow("pageup")<CR>
+"nnoremap <A-Y> <C-Y>
+"nnoremap <silent> <A-j> :call ScrollOtherWindow("down")<CR>
+"nnoremap <silent> <A-k> :call ScrollOtherWindow("up")<CR>
+"nnoremap <silent> <A-f> :call ScrollOtherWindow("pagedown")<CR>
+"nnoremap <silent> <A-b> :call ScrollOtherWindow("pageup")<CR>
 
 " Open File Manager or Terminal at the current working directory or the location
 " of the current file. I was using the vim-gtfo plugin; however, it does not
@@ -1006,8 +1011,8 @@ endif
 nnoremap Y y$
 
 " copy and paste from system clipboard
-nnoremap <leader>p "*p
-vnoremap <leader>y "*y
+"nnoremap <leader>p "*p
+"vnoremap <leader>y "*y
 
 " Load session via the gui
 noremap <leader>ls :browse so<CR>
@@ -1019,8 +1024,8 @@ noremap <leader>ss :browse mksession!<CR>
 nnoremap <leader>P :hardcopy<CR>
 
 " Map increment/decrement to alt-a and alt-x. <C-a> is select all in windows
-nnoremap <A-a> <C-a>
-nnoremap <A-x> <C-x>
+"nnoremap <A-a> <C-a>
+"nnoremap <A-x> <C-x>
 
 " Set increment and decrement commands to work for decimal and hex only.
 set nrformats=hex 
@@ -1056,8 +1061,8 @@ vnoremap <leader>) <Esc>`<i(<Esc>`>a)<Esc>
 vnoremap <leader>( <Esc>`<i(<Esc>`>a)<Esc>
 
 " Vertical Split with Scroll Binding
-noremap <leader>vs :vs<CR>
-noremap <silent> <Leader>vS gg:<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
+"noremap <leader>vs :vs<CR>
+"noremap <silent> <Leader>vS gg:<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
 
 " Eliminate dos format ^M characters in file
 cabbrev dos2unix %s/\r//g
@@ -1077,7 +1082,7 @@ cabbrev fcd cd %:h
 cabbrev fcdt call FindRootDirectory()
 
 " Open help in a new tab
-cabbrev ht tab help
+"cabbrev ht tab help
 
 " Open help in a right vertical split
 cabbrev hr vertical rightbelow help
@@ -1558,4 +1563,16 @@ function! LineContainsComment()
 	call setpos('.', save_cursor)
 	return CommentOutput
 endfunction "}}}
+" Auto mkdir =============================================================== {{{
+augroup auto_mkdir_group
+  autocmd!
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:auto_mkdir(dir, force)
+    if !isdirectory(a:dir)
+          \   && (a:force
+          \       || input("'" . a:dir . "' does not exist. Create? [y/N]") =~? '^y\%[es]$')
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
+augroup END " }}}
 " }}}
