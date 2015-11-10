@@ -163,8 +163,9 @@ goF		open file browser at current working directory
 
 BUFFERS~
 ,b		start CTRLP navigator in buffer mode
-CTRL- <SPACE> 	next buffer (:bn)
+CTRL-h CTRL-l 	previous/next buffer (:bp/:bn)
 :bd		delete buffer
+:BD		delete buffer but preserve window
 
 CTRLP~
 CTRL-p		start CTRLP navigator	
@@ -176,11 +177,8 @@ CTRL-f		change mode - file, directory, buffer, tag browser
 CTRL-d		toggle full path
 
 EDIT~
-,y		yank to system clipboard
-,p		paste from system clipboard
-,c		comment selection or line
-,x		uncomment selection or line
-ALT-a	ALT-x	increment/decrement number at cursor (hex identifier 0x)
+,c	,x	comment/uncomment selection or line
+CTRL-a	CTRL-x	increment/decrement number at cursor (hex identifier 0x)
 ALT-H	ALT-h	hex increment/decrement number at cursor for hdl
 ALT-_		add underscores every 4 chars for hex number at cursor for hdl
 CTRL-j	CTRL-k	move line or selection down/up
@@ -212,7 +210,7 @@ JUMPS~
 z<CR>		position current line at top of screen
 <Tab>	<S-Tab>	JUMPS list forward (back)
 g,	g;	CHANGE list newer (older)
-<C-]>	<C-\>	TAG list forward (back)
+<C-]>	<C-t>	TAG list forward (back)
 <C-w>]		TAG list in new  vertical split
 %		Go to the matching brace, parenthesis, keyword
 
@@ -226,13 +224,14 @@ zj	zk	next (previous) fold
 zf		create fold around current selection
 
 ALIGN~
-<A-:>{column}<CR>	align : ; , < ( ) ' " at (column) for selected lines
-,=			reindent file
-,C	,w		toggle color column(s) (toggle line wrap)
-,ac			toggle autoclose
-,av			align vhdl entity, component, instance
-,as			align vhdl signals and constants
-,ic			toggle invisible characters
+<A-:>{col}<CR>	align : ; , < ( ) ' " at (column) for selected lines
+,=		reindent file
+,C		toggle color column(s)
+,w		toggle line wrap
+,ac		toggle autoclose
+,av		align vhdl entity, component, instance
+,as		align vhdl signals and constants
+,ic		toggle invisible characters
 
 MACRO~
 qa	q	begin (end) recording macro in reg a
@@ -258,14 +257,15 @@ USER ADDED FUNCTIONS~
 		create std_logic_vector signal declaration {number} downto 0
 <A-s>(signal range)<CR>
 		create std_logic_vector signal declaration with (signal range)
-:Testbench {arg}<CR>
-  create testbench from current vhdl file with name tb_[vhdl_entity]{arg}.vhd
-:ModelsimScript {arg}<CR>
-  create modelsim script for the current testbench with the name
-  tb\tb_[vhdl_entity]_run.do.  {arg} is the directory for source files to add
-  to the script. For example, :ModelsimScript hdl\module<CR> will add the
-  testbench and all .vhd, .v, and .sv files from source\hdl\module directory.
-  If {arg} is omitted, the script will default to hdl directory.
+:Testbench {path}<CR>
+  create testbench from current vhdl file with name tb_[vhdl_entity].vhd
+  file will be located in source\tb\{path}\
+:ModelsimScript {source}<CR>
+  create modelsim script for the current testbench at testcase\{path}\run.do
+  {source} is the directory of source files to add to the script.  For example,
+  :ModelsimScript hdl\module<CR> will add the testbench and all .vhd, .v,
+  and .sv files from source\hdl\module directory.
+  If {source} is omitted, the script will default to hdl directory.
 
 VHDL PLUGIN~
 :Viy		Yank entity under cursor
