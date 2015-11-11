@@ -7,7 +7,7 @@
 #  Set run duration
 
 # To run this script,
-#  type goT to launch terminal at the current working directory
+#  type got to launch terminal at the current working directory
 #  type vsim<CR> in the terminal to launch Modelsim
 #  do run.do from the modelsim terminal
 
