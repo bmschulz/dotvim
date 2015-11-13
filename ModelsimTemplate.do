@@ -1,6 +1,6 @@
 # HOW TO USE =============================================================== {{{
 
-# If you've just created run.do from the vim CreateMSScript command,
+# If you've just created run.do from the vim ModelsimScript command,
 #  Add simulation models as required
 #  Add and reorder simulation sources as required
 #  Choose correct libraries
