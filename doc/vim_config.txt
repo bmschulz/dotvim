@@ -37,17 +37,17 @@ FEATURES                                               *vim_config-features*
 
    Project folder structure:
       project/
-        SOURCE/
+        source/
           constraint/  	timing, placement, & pin constraints
           debug/       	chipscope & signaltap files
           hdl/	       	source files
           ip/	       	third party IP
           model/       	models for test
           tb/	       	testbench files
-          work/	       	modelsim work directory
           tags	       	ctags created tag files
+        testcase/	modelsim scripts
 
-*  Note: Working directory should always be set to SOURCE
+*  Note: Working directory should always be set to source
 
 ==============================================================================
 PLUGINS                                                 *vim_config-plugins*
@@ -56,12 +56,6 @@ airline - a clean, configurable statusline
 	Modified for colors - bsbase16.vim
 	http://www.vim.org/scripts/script.php?script_id=4661
 	version 0.5 - 10 Sep 2013
-
-autoclose - insert matching bracket, paren, or quote
-	Modified to exclude braces {}. Annoying for marker type folding
-	Modified to expand abbreviations before (
-	http://www.vim.org/scripts/script.php?script_id=1849
-	version 1.2 - 18 June 2009
 
 ctrlp - fuzzy finder for files, directories, tags, buffers, etc
 	https://github/kien/ctrlp.vim
