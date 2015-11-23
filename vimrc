@@ -264,7 +264,7 @@ augroup filetype_vhdl
 				\:execute 'normal vi"<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><A-a>`<2xt"'
+				\|:execute 'normal <args><C-a>`<2xt"'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -277,7 +277,7 @@ augroup filetype_vhdl
 				\:execute 'normal vi"<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><A-x>`<2xt"'
+				\|:execute 'normal <args><C-x>`<2xt"'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -757,7 +757,7 @@ augroup filetype_verilog
 				\:execute 'normal viw<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><A-a>`<l2xe'
+				\|:execute 'normal <args><C-a>`<l2xe'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -770,7 +770,7 @@ augroup filetype_verilog
 				\:execute 'normal viw<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><A-x>`<l2xe'
+				\|:execute 'normal <args><C-x>`<l2xe'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
