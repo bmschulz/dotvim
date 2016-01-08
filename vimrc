@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	10 Nov 2015  10:53AM
+"  Last Modified:	06 Jan 2016  05:02PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -264,7 +264,7 @@ augroup filetype_vhdl
 				\:execute 'normal vi"<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><C-a>`<2xt"'
+				\|:execute 'normal <args><c-a>`<2xt"'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -277,7 +277,7 @@ augroup filetype_vhdl
 				\:execute 'normal vi"<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><C-x>`<2xt"'
+				\|:execute 'normal <args><c-x>`<2xt"'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -462,7 +462,7 @@ augroup filetype_vhdl
 " Align signal declarations ================================================ {{{
 autocmd Filetype vhdl :command! -buffer SignalFormat
 			\|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
-			\|:silent execute 'normal V]z=<Esc>'
+			\|:silent execute 'normal zoV]z=<Esc>'
 			\|:execute 'normal `<j^'
 			\|:let ColonColumnMax = 0
 			\|:let ScolonColumnMax = 0
@@ -522,7 +522,7 @@ autocmd Filetype vhdl :command! -buffer SignalFormat
 	autocmd FileType vhdl :command! -buffer -nargs=? SignalDeclaration 
 			\:let NewSignal = expand("<cword>")
 			\|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
-			\|:silent execute 'normal V]z<Esc>'
+			\|:silent execute 'normal zoV]z<Esc>'
 			\|:let SignalRegion=getline(line("'<"),line("'>"))
 			\|:let SignalRange="<args>"
 			\|:if match(SignalRegion, "^\\s*signal\\s*".NewSignal."\\s\+") > 0
@@ -662,10 +662,10 @@ autocmd Filetype vhdl :command! -buffer -nargs=? ModelsimScript
 	" NOTE: for multiline abbreviations, a space character is required after the
 	" abbreviation name!
 	autocmd FileType vhdl :iabbrev <buffer> new_process 
-				\<CR>process_name : process (clk)
+				\<CR>process_name : process (i_clk)
 				\<CR>begin
-				\<CR>if rising_edge (clk) then
-				\<CR>if reset = '1' then
+				\<CR>if rising_edge (i_clk) then
+				\<CR>if i_reset = '1' then
 				\<CR>;
 				\<CR>else
 				\<CR>;
@@ -682,34 +682,34 @@ autocmd Filetype vhdl :command! -buffer -nargs=? ModelsimScript
 				\<CR><C-d>);
 	autocmd FileType vhdl :iabbrev <buffer> new_sm 
 				\<CR>---------------------------- STATE MACHINE ------------------------------{{{
-				\<CR>current_state_process : process (clk, reset)
+				\<CR>current_state_process : process (i_clk, i_reset)
 				\<CR>begin
-				\<CR>if reset = '1' then
-				\<CR>STATE <= IDLE;
-				\<CR>elsif rising_edge (clk) then
-				\<CR>STATE <= NEXT_STATE;
+				\<CR>if i_reset = '1' then
+				\<CR>state <= IDLE;
+				\<CR>elsif rising_edge (i_clk) then
+				\<CR>state <= next_state;
 				\<CR>end if;
 				\<CR>end process current_state_process;
 				\<CR>
-				\<CR>next_state_process : process (STATE)
+				\<CR>next_state_process : process (state)
 				\<CR>begin
-				\<CR>case STATE is
+				\<CR>case state is
 				\<CR>when IDLE =>
-				\<CR>NEXT_STATE <= RUN;
+				\<CR>next_state <= RUN;
 				\<CR>when RUN =>
-				\<CR>NEXT_STATE <= IDLE;
+				\<CR>next_state <= IDLE;
 				\<CR>when others =>
 				\<CR>null;
 				\<CR>end case;
 				\<CR>end process next_state_process;
 				\<CR>
-				\<CR>state_machine_output : process (clk, reset, STATE)
+				\<CR>state_machine_output : process (i_clk, i_reset, state)
 				\<CR>begin
-				\<CR>if rising_edge (clk) then
-				\<CR>if reset = '1' then
+				\<CR>if rising_edge (i_clk) then
+				\<CR>if i_reset = '1' then
 				\<CR>state_machine_output <= '0';
 				\<CR>else
-				\<CR>case STATE is
+				\<CR>case state is
 				\<CR>when IDLE =>
 				\<CR>state_machine_output <= '0';
 				\<CR>when RUN =>
@@ -757,7 +757,7 @@ augroup filetype_verilog
 				\:execute 'normal viw<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><C-a>`<l2xe'
+				\|:execute 'normal <args><c-a>`<l2xe'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -770,7 +770,7 @@ augroup filetype_verilog
 				\:execute 'normal viw<Esc>'
 				\|:silent! s/\%V_//g
 				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><C-x>`<l2xe'
+				\|:execute 'normal <args><c-x>`<l2xe'
 				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
 				\|:execute 'normal l'
 				\|while numUnderscores>0
@@ -903,7 +903,8 @@ inoremap <C-l> <C-x><C-l>
 
 " Comment and Uncomment selection
 noremap <leader>c :call Visual_comment()<CR>
-noremap <leader>x :call Visual_uncomment()<CR>
+nnoremap <leader>x :call Visual_uncomment()<CR>
+vnoremap <leader>x :call Visual_uncomment()<CR>gv=
 
 augroup comment_settings
 	autocmd!
@@ -1350,7 +1351,7 @@ function! GenerateCommentString()
   elseif &filetype == 'vim'
 	set commentstring=\ \"%s
   elseif ext == 'm'
-  	set commentstring=\ \%%s	
+  	set commentstring=\ \%%s
   endif
 endfunction " }}}
 " Comment and Uncomment a block of text ==================================== {{{
@@ -1379,20 +1380,20 @@ function! Visual_uncomment()
   let ext = tolower(expand('%:e'))
   let ext_vimrc = tolower(expand("%:t:r"))
   if ext == 'php' || ext == 'rb' || ext == 'sh' || ext == 'py'
-	silent! s/^\#//
+	silent! s/^\s*\#//
   elseif ext == 'js'
-	silent! s:^\/\/::g
+	silent! s:^\s*\/\/::g
   elseif &filetype == 'vim'
 "  elseif ext == 'vim' || ext_vimrc == '_vimrc'
-	silent! s:^\"::g
+	silent! s:^\s*\"::g
   elseif ext == 'vhd'
-	silent! s:^\-\-::g
+	silent! s:^\s*\-\-::g
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
-	silent! s:^\#::g
+	silent! s:^\s*\#::g
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
-	silent! s:^\/\/::g
+	silent! s:^\s*\/\/::g
   elseif ext == 'm'
-	silent! s:^\%::g
+	silent! s:^\s*\%::g
   endif
 endfunction " }}}
 " Update module date after each save ======================================= {{{
