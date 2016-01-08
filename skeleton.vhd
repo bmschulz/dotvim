@@ -1,7 +1,7 @@
 --------------------------------- FILE HEADER -------------------------------{{{
 --
 -- File:			[:VIM_EVAL:]expand("%:t")[:END_EVAL:]
--- Last Modified:	26 Sep 2014  01:19PM
+-- Last Modified:	06 Jan 2016  04:56PM
 --
 -- Module Description
 --
@@ -20,8 +20,8 @@ entity [:VIM_EVAL:]expand("%:t:r")[:END_EVAL:] is
 --		width : integer := 2
 --	);
 	port (
-		o_module_date		: out	std_logic_vector(31 downto 0) := x"0404_2014"	;
-		o_module_time		: out	std_logic_vector(31 downto 0) := x"1451_5900"	;
+		o_module_date		: out	std_logic_vector(31 downto 0) := x"0106_2016"	;
+		o_module_time		: out	std_logic_vector(31 downto 0) := x"1656_5200"	;
 		i_reset				: in	std_logic										;
 		i_clk				: in	std_logic
 	);
@@ -34,8 +34,8 @@ architecture behavioral of [:VIM_EVAL:]expand("%:t:r")[:END_EVAL:] is
 
 ------------------------------ SIGNAL DECLARATION ---------------------------{{{
 --type state_type is (IDLE, RUN);
---signal NEXT_STATE		: state_type := IDLE;
---signal STATE			: state_type := IDLE;
+--signal next_state		: state_type := IDLE;
+--signal state			: state_type := IDLE;
 -----------------------------------------------------------------------------}}}
 
 begin
