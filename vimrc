@@ -853,6 +853,7 @@ xnoremap # :<C-u>call <SID>VSetSearch('?')<CR>?<C-R>=@/<CR><CR>
 
 " Clear highlighting after search
 noremap <silent> <leader><space> :noh<cr>
+noremap <silent> <BS> :noh<CR>
 
 " Grep word under cursor - all files
 " including subfolders in new split
