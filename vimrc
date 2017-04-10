@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:	06 Jan 2016  05:02PM
+"  Last Modified:   10 Apr 2017  11:03AM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -38,13 +38,16 @@ set history=50
 " Save and restore global variables
 " Set path for viminfo
 if has('win32')
-	set viminfo='100,<50,s10,h,rA:,rB:,!,n$VIM/viminfo
+    set viminfo='100,<50,s10,h,rA:,rB:,!,n$HOME/vimfiles/viminfo
 elseif has('unix')
-	set viminfo='100,<50,s10,h,!,n$HOME/.vim/viminfo
+    set viminfo='100,<50,s10,h,!,n$HOME/.vim/viminfo
 endif
 
 " Use unix file format even with windows
 set fileformats=unix,dos
+
+" Use utf-8 encoding
+set encoding=utf-8
 
 " Disable alt keys windows behavior - allows user mapping to alt keys
 set winaltkeys=no
@@ -116,12 +119,13 @@ augroup END
 " Set tab size
 set tabstop=4
 set shiftwidth=4
+set expandtab
 
 " Set font
 if has('win32')
-	set guifont=Consolas:h10
+    set guifont=Consolas:h10
 elseif has('unix')
-	set guifont=Inconsolata\ 10
+    set guifont=Inconsolata\ 10
 endif
 
 " Line Wrap
@@ -131,7 +135,8 @@ nnoremap <silent> <leader>w :set wrap!<CR>
 
 " List Mode
 set nolist
-set listchars=tab:>=,eol:Â¬,extends:>,precedes:<,trail:?
+set listchars=tab:>=,eol:¬,extends:>,precedes:<,trail:?
+
 " Toggles invisible characters
 nnoremap <silent> <leader>ic :set nolist!<CR>
 
@@ -163,17 +168,17 @@ nnoremap <leader>C :call ToggleCC()<CR>
 " Also don't do it when the mark is in the first line, that is the default
 " position when opening a file.
 augroup last_position
-	autocmd!
-	autocmd BufReadPost *
-				\ if line("'\"") > 1 && line("'\"") <= line("$") |
-				\   execute "normal! g`\"" |
-				\ endif
+    autocmd!
+    autocmd BufReadPost *
+                \ if line("'\"") > 1 && line("'\"") <= line("$") |
+                \   execute "normal! g`\"" |
+                \ endif
 augroup END
 
 " Resize splits when the window is resized
 augroup window_resize
-	autocmd!
-	autocmd VimResized * :silent wincmd =
+    autocmd!
+    autocmd VimResized * :silent wincmd =
 augroup END
 
 " Redraw my screen
@@ -237,571 +242,571 @@ set foldtext=MyFoldText()
 " Text file specific ======================================================= {{{
 " For all text files set 'textwidth' to 80 characters.
 augroup filetype_text
-	autocmd!
-	autocmd BufRead,BufNewFile,BufWrite *.txt setfiletype text
-	autocmd FileType text setlocal textwidth=80
-	autocmd FileType text setlocal formatoptions=wantq
-	autocmd FileType text setlocal autoindent
+    autocmd!
+    autocmd BufRead,BufNewFile,BufWrite *.txt setfiletype text
+    autocmd FileType text setlocal textwidth=80
+    autocmd FileType text setlocal formatoptions=wantq
+    autocmd FileType text setlocal autoindent
 augroup END " }}}
 " Vim file specific ======================================================== {{{
 augroup filetype_vim
-	autocmd!
-	autocmd FileType vim setlocal textwidth=80
-	autocmd FileType vim setlocal foldlevel=0
+    autocmd!
+    autocmd FileType vim setlocal textwidth=80
+    autocmd FileType vim setlocal foldlevel=0
 augroup END " }}}
 " VHDL file specfic ======================================================== {{{
 
 augroup filetype_vhdl
-	autocmd!
-	autocmd BufEnter,BufWrite *.vho setfiletype vhdl
+    autocmd!
+    autocmd BufEnter,BufWrite *.vho setfiletype vhdl
 
 " Increment/Decrement a hex number within quotes =========================== {{{
 " Insert underscores every 4 characters
 " Vim only supports 8 hex characters
 " This should probably be implemented as a function but I'm not a vim script
-" wizard so I got frustrated and gave up.	
-	autocmd FileType vhdl :command! -buffer -nargs=? HexIncrement 
-				\:execute 'normal vi"<Esc>'
-				\|:silent! s/\%V_//g
-				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><c-a>`<2xt"'
-				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
-				\|:execute 'normal l'
-				\|while numUnderscores>0
-					\|:execute 'normal 4hi_<Esc>'
-					\|:let numUnderscores=numUnderscores-1
-				\|:endwhile
-				\|:execute 'normal , be'
+" wizard so I got frustrated and gave up.
+    autocmd FileType vhdl :command! -buffer -nargs=? HexIncrement 
+                \:execute 'normal vi"<Esc>'
+                \|:silent! s/\%V_//g
+                \|:execute 'normal `<i0x'
+                \|:execute 'normal <args><c-a>`<2xt"'
+                \|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
+                \|:execute 'normal l'
+                \|while numUnderscores>0
+                    \|:execute 'normal 4hi_<Esc>'
+                    \|:let numUnderscores=numUnderscores-1
+                \|:endwhile
+                \|:execute 'normal , be'
 
-	autocmd FileType vhdl :command! -buffer -nargs=? HexDecrement 
-				\:execute 'normal vi"<Esc>'
-				\|:silent! s/\%V_//g
-				\|:execute 'normal `<i0x'
-				\|:execute 'normal <args><c-x>`<2xt"'
-				\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
-				\|:execute 'normal l'
-				\|while numUnderscores>0
-					\|:execute 'normal 4hi_<Esc>'
-					\|:let numUnderscores=numUnderscores-1
-				\|:endwhile
-				\|:execute 'normal , be'
+    autocmd FileType vhdl :command! -buffer -nargs=? HexDecrement 
+                \:execute 'normal vi"<Esc>'
+                \|:silent! s/\%V_//g
+                \|:execute 'normal `<i0x'
+                \|:execute 'normal <args><c-x>`<2xt"'
+                \|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
+                \|:execute 'normal l'
+                \|while numUnderscores>0
+                    \|:execute 'normal 4hi_<Esc>'
+                    \|:let numUnderscores=numUnderscores-1
+                \|:endwhile
+                \|:execute 'normal , be'
 " }}}
 " Add underscores every 4th character to number contained within quotes ==== {{{
-	autocmd FileType vhdl :command! -buffer InsertUnderscores 
-			\:execute 'normal vi"<Esc>'
-			\|:silent! s/\%V_//g
-			\|:execute 'normal `<'
-			\|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
-			\|:execute 'normal `>'
-			\|while numUnderscores>0
-				\|:execute 'normal 4hi_<Esc>'
-				\|:let numUnderscores=numUnderscores-1
-			\|:endwhile
-			\|:execute 'normal , `<t"'
+    autocmd FileType vhdl :command! -buffer InsertUnderscores 
+            \:execute 'normal vi"<Esc>'
+            \|:silent! s/\%V_//g
+            \|:execute 'normal `<'
+            \|:let numUnderscores=(strlen(expand('<cword>'))-1)/4
+            \|:execute 'normal `>'
+            \|while numUnderscores>0
+                \|:execute 'normal 4hi_<Esc>'
+                \|:let numUnderscores=numUnderscores-1
+            \|:endwhile
+            \|:execute 'normal , `<t"'
 " }}}
 " Format Entity, Component, or Instance ==================================== {{{
-	" First Check whether it is an instance or an entity/component
-	" Use vim's built in indent =
-	" Append a , for instances or a ; for entity/component if not present
-	" Remove , for instance or ; for entity/component in the last line if present
-	" Align at = for instances or at : for entity/component - use tabs
-	" Align at , for instance or at ; for entity/component - use tabs
-	" Remove trailing white space
-	" Commented lines are ignored, comments at end of line are preserved
-	autocmd Filetype vhdl :command! -buffer FormatECI 
-				\:execute 'normal va(<Esc>'
-				\|:execute 'normal `<'
-				\|:let InstanceCheck = search('map', 'bn', line("."))
-				\|:if InstanceCheck == 0
-				\|	:let EntityCheck = search('port\|generic', 'bn', line("."))
-				\|:else
-				\|	:let EntityCheck = 0
-				\|:endif
-				\|:if InstanceCheck != 0
-				\|	:let EqualColumnMax = 0
-				\|	:let CommaColumnMax = 0
-				\|	:execute 'normal va(ok=<Esc>'
-				\|	:execute 'normal 2jva(<Esc>'
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() == 1
-				\|			:continue
-				\|		:elseif LineContainsComment() == 2
-				\|			:execute 'normal /--<CR>F,'
-				\|			:noh
-				\|			:if getline(".")[col(".")-1] != ','
-				\|				:execute 'normal i,<Esc>'
-				\|			:endif
-				\|		:else
-				\|			:execute 'normal g_'
-				\|			:if getline(".")[col(".")-1] != ','
-				\|				:execute 'normal a,<Esc>'
-				\|			:endif
-				\|		:endif
-				\|		:execute 'normal ^f=h'	
-				\|		:if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
-				\|			:execute 'normal diw'
-				\|		:else
-				\|			:execute 'normal l'
-				\|		:endif
-				\|		:let EqualColumnMax = max([EqualColumnMax,virtcol('.')-1])
-				\|		:execute 'normal whdiwi<tab><esc>'
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>"))
-				\|		:execute 'normal j'
-				\|		:if LineContainsComment() != 1	
-				\|			:execute 'normal 0f=20i<Tab>d' . (EqualColumnMax+4) . '|'
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() == 1
-				\|			:continue
-				\|		:else
-				\|			:execute 'normal f,h'
-				\|			:if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
-				\|				:execute 'normal diw'
-				\|			:else
-				\|				:execute 'normal l'
-				\|			:endif
-				\|			:let CommaColumnMax = max([CommaColumnMax,virtcol('.')-1])
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() != 1	
-				\|			:execute 'normal 0f,20i<Tab>d' . (CommaColumnMax+4) . '|x'
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `>k'
-				\|	:while LineContainsComment() == 1
-				\|		:execute 'normal k'
-				\|	:endwhile
-				\|	:execute 'normal ^f,x`>'
-				\|	:silent '<,'>s/\s*$//
-				\|	:noh
-				\|:elseif EntityCheck != 0
-				\|	:let ColonColumnMax = 0
-				\|	:let ScolonColumnMax = 0
-				\|	:execute 'normal va(jok=<Esc>'
-				\|	:execute 'normal 2jva(<Esc>'
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() == 1
-				\|			:continue
-				\|		:elseif LineContainsComment() == 2
-				\|			:execute 'normal /--<CR>F;'
-				\|			:noh
-				\|			:if getline(".")[col(".")-1] != ';'
-				\|				:execute 'normal i;<Esc>'
-				\|			:endif
-				\|		:else
-				\|			:execute 'normal g_'
-				\|			:if getline(".")[col(".")-1] != ';'
-				\|				:execute 'normal a;<Esc>'
-				\|			:endif
-				\|		:endif
-				\|		:execute 'normal ^f:h'
-				\|		:if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
-				\|			:execute 'normal diw'
-				\|		:else
-				\|			:execute 'normal l'
-				\|		:endif
-				\|		:let ColonColumnMax = max([ColonColumnMax,virtcol('.')-1])
-				\|		:execute 'normal l'
-				\|		:if (getline(".")[col(".")-1] =~? '\s')
-				\|			:execute 'normal diwi <Esc>'
-				\|		:else
-				\|			:execute 'normal i <Esc>'
-				\|		:endif
-				\|		:execute 'normal 2whdiwi<tab><esc>'
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>"))
-				\|		:execute 'normal j'
-				\|		:if LineContainsComment() != 1	
-				\|			:execute 'normal 0f:20i<Tab>d' . (ColonColumnMax+4) . '|'
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() == 1
-				\|			:continue
-				\|		:else
-				\|			:execute 'normal f;h'
-				\|			:if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
-				\|				:execute 'normal diw'
-				\|			:else
-				\|				:execute 'normal l'
-				\|			:endif
-				\|			:let ScolonColumnMax = max([ScolonColumnMax,virtcol('.')-1])
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `<'
-				\|	:while line(".") < (line("'>") - 1)
-				\|		:execute 'normal j^'
-				\|		:if LineContainsComment() != 1	
-				\|			:execute 'normal 0f;20i<Tab>d' . (ScolonColumnMax+4) . '|x'
-				\|		:endif
-				\|	:endwhile
-				\|	:execute 'normal `>k'
-				\|	:while LineContainsComment() == 1
-				\|		:execute 'normal k'
-				\|	:endwhile
-				\|	:execute 'normal ^f;x`>'
-				\|	:silent '<,'>s/\s*$//
-				\|	:noh
-				\|:endif
+    " First Check whether it is an instance or an entity/component
+    " Use vim's built in indent =
+    " Append a , for instances or a ; for entity/component if not present
+    " Remove , for instance or ; for entity/component in the last line if present
+    " Align at = for instances or at : for entity/component - use tabs
+    " Align at , for instance or at ; for entity/component - use tabs
+    " Remove trailing white space
+    " Commented lines are ignored, comments at end of line are preserved
+    autocmd Filetype vhdl :command! -buffer FormatECI 
+                \:execute 'normal va(<Esc>'
+                \|:execute 'normal `<'
+                \|:let InstanceCheck = search('map', 'bn', line("."))
+                \|:if InstanceCheck == 0
+                \|  :let EntityCheck = search('port\|generic', 'bn', line("."))
+                \|:else
+                \|  :let EntityCheck = 0
+                \|:endif
+                \|:if InstanceCheck != 0
+                \|  :let EqualColumnMax = 0
+                \|  :let CommaColumnMax = 0
+                \|  :execute 'normal va(ok=<Esc>'
+                \|  :execute 'normal 2jva(<Esc>'
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() == 1
+                \|          :continue
+                \|      :elseif LineContainsComment() == 2
+                \|          :execute 'normal /--<CR>F,'
+                \|          :noh
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal i,<Esc>'
+                \|          :endif
+                \|      :else
+                \|          :execute 'normal g_'
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal a,<Esc>'
+                \|          :endif
+                \|      :endif
+                \|      :execute 'normal ^f=h'
+                \|      :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|          :execute 'normal diw'
+                \|      :else
+                \|          :execute 'normal l'
+                \|      :endif
+                \|      :let EqualColumnMax = max([EqualColumnMax,virtcol('.')-1])
+                \|      :execute 'normal whdiwi <esc>'
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>"))
+                \|      :execute 'normal j'
+                \|      :if LineContainsComment() != 1
+                \|          :execute 'normal 0f=80i d' . (EqualColumnMax+2) . '|'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() == 1
+                \|          :continue
+                \|      :else
+                \|          :execute 'normal f,h'
+                \|          :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|              :execute 'normal diw'
+                \|          :else
+                \|              :execute 'normal l'
+                \|          :endif
+                \|          :let CommaColumnMax = max([CommaColumnMax,virtcol('.')-1])
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() != 1
+                \|          :execute 'normal 0f,20i d' . (CommaColumnMax+2) . '|x'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `>k'
+                \|  :while LineContainsComment() == 1
+                \|      :execute 'normal k'
+                \|  :endwhile
+                \|  :execute 'normal ^f,x`>'
+                \|  :silent '<,'>s/\s*$//
+                \|  :noh
+                \|:elseif EntityCheck != 0
+                \|  :let ColonColumnMax = 0
+                \|  :let ScolonColumnMax = 0
+                \|  :execute 'normal va(jok=<Esc>'
+                \|  :execute 'normal 2jva(<Esc>'
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() == 1
+                \|          :continue
+                \|      :elseif LineContainsComment() == 2
+                \|          :execute 'normal /--<CR>F;'
+                \|          :noh
+                \|          :if getline(".")[col(".")-1] != ';'
+                \|              :execute 'normal i;<Esc>'
+                \|          :endif
+                \|      :else
+                \|          :execute 'normal g_'
+                \|          :if getline(".")[col(".")-1] != ';'
+                \|              :execute 'normal a;<Esc>'
+                \|          :endif
+                \|      :endif
+                \|      :execute 'normal ^f:h'
+                \|      :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|          :execute 'normal diw'
+                \|      :else
+                \|          :execute 'normal l'
+                \|      :endif
+                \|      :let ColonColumnMax = max([ColonColumnMax,virtcol('.')-1])
+                \|      :execute 'normal l'
+                \|      :if (getline(".")[col(".")-1] =~? '\s')
+                \|          :execute 'normal diwi <Esc>'
+                \|      :else
+                \|          :execute 'normal i <Esc>'
+                \|      :endif
+                \|      :execute 'normal 2whdiwi <esc>'
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>"))
+                \|      :execute 'normal j'
+                \|      :if LineContainsComment() != 1
+                \|          :execute 'normal 0f:80i d' . (ColonColumnMax+2) . '|'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() == 1
+                \|          :continue
+                \|      :else
+                \|          :execute 'normal f;h'
+                \|          :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|              :execute 'normal diw'
+                \|          :else
+                \|              :execute 'normal l'
+                \|          :endif
+                \|          :let ScolonColumnMax = max([ScolonColumnMax,virtcol('.')-1])
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsComment() != 1
+                \|          :execute 'normal 0f;80i d' . (ScolonColumnMax+2) . '|x'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `>k'
+                \|  :while LineContainsComment() == 1
+                \|      :execute 'normal k'
+                \|  :endwhile
+                \|  :execute 'normal ^f;x`>'
+                \|  :silent '<,'>s/\s*$//
+                \|  :noh
+                \|:endif
 " }}}
 " Align signal declarations ================================================ {{{
 autocmd Filetype vhdl :command! -buffer SignalFormat
-			\|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
-			\|:silent execute 'normal zoV]z=<Esc>'
-			\|:execute 'normal `<j^'
-			\|:let ColonColumnMax = 0
-			\|:let ScolonColumnMax = 0
-			\|:while line(".") <= (line("'>"))
-			\|	:if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
-			\|		:if LineContainsComment() == 2
-			\|			:execute 'normal /--<CR>F;'
-			\|			:noh
-			\|			:if getline(".")[col(".")-1] != ';'
-			\|				:execute 'normal i;<Esc>'
-			\|			:endif
-			\|		:else
-			\|			:execute 'normal g_'
-			\|			:if getline(".")[col(".")-1] != ';'
-			\|				:execute 'normal a;<Esc>'
-			\|			:endif
-			\|		:endif
-			\|		:execute 'normal ^eldiwi <esc>'
-			\|		:execute 'normal eldt:'
-			\|		:let ColonColumnMax = max([ColonColumnMax,virtcol('.')-1])
-			\|		:execute 'normal l'
-			\|		:if (getline(".")[col(".")-1] =~? '\s')
-			\|			:execute 'normal diwi <Esc>'
-			\|		:else
-			\|			:execute 'normal i <Esc>'
-			\|		:endif
-			\|	:endif
-			\|	:execute 'normal j^'
-			\|:endwhile
-			\|:execute 'normal `<j^'
-			\|:while line(".") <= (line("'>"))
-			\|	:if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
-			\|		:execute 'normal 0f:20i<Tab>d' . (ColonColumnMax+4) . '|f;h'
-			\|		:if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
-			\|			:execute 'normal diw'
-			\|		:else
-			\|			:execute 'normal l'
-			\|		:endif
-			\|		:let ScolonColumnMax = max([ScolonColumnMax,virtcol('.')-1]) 
-			\|	:endif
-			\|	:execute 'normal j^'
-			\|:endwhile
-			\|:execute 'normal `<^'
-			\|:while line(".") <= (line("'>"))
-			\|	:if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
-			\|		:execute 'normal 0f;20i<Tab>d' . (ScolonColumnMax+4) . '|x'
-			\|	:endif
-			\|	:execute 'normal j^'
-			\|:endwhile
-			\|:silent '<,'>s/\s*$//
-			\|:execute 'normal `z, '
+            \|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
+            \|:silent execute 'normal zoV]z=<Esc>'
+            \|:execute 'normal `<j^'
+            \|:let ColonColumnMax = 0
+            \|:let ScolonColumnMax = 0
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
+            \|      :if LineContainsComment() == 2
+            \|          :execute 'normal /--<CR>F;'
+            \|          :noh
+            \|          :if getline(".")[col(".")-1] != ';'
+            \|              :execute 'normal i;<Esc>'
+            \|          :endif
+            \|      :else
+            \|          :execute 'normal g_'
+            \|          :if getline(".")[col(".")-1] != ';'
+            \|              :execute 'normal a;<Esc>'
+            \|          :endif
+            \|      :endif
+            \|      :execute 'normal ^eldiwi <esc>'
+            \|      :execute 'normal eldt:'
+            \|      :let ColonColumnMax = max([ColonColumnMax,virtcol('.')-1])
+            \|      :execute 'normal l'
+            \|      :if (getline(".")[col(".")-1] =~? '\s')
+            \|          :execute 'normal diwi <Esc>'
+            \|      :else
+            \|          :execute 'normal i <Esc>'
+            \|      :endif
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:execute 'normal `<j^'
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
+            \|      :execute 'normal 0f:80i d' . (ColonColumnMax+2) . '|f;h'
+            \|      :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+            \|          :execute 'normal diw'
+            \|      :else
+            \|          :execute 'normal l'
+            \|      :endif
+            \|      :let ScolonColumnMax = max([ScolonColumnMax,virtcol('.')-1]) 
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:execute 'normal `<^'
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*signal') || (getline(".") =~? '^\s*constant')
+            \|      :execute 'normal 0f;80i d' . (ScolonColumnMax+2) . '|x'
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:silent '<,'>s/\s*$//
+            \|:execute 'normal `z, '
 " }}}
 " Create signal declaration ================================================ {{{
 
 " Yank word at cursor, check if signal declaration exists, if not add signal of
 " user provided length.  if no length provided, use std_logic
-	autocmd FileType vhdl :command! -buffer -nargs=? SignalDeclaration 
-			\:let NewSignal = expand("<cword>")
-			\|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
-			\|:silent execute 'normal zoV]z<Esc>'
-			\|:let SignalRegion=getline(line("'<"),line("'>"))
-			\|:let SignalRange="<args>"
-			\|:if match(SignalRegion, "^\\s*signal\\s*".NewSignal."\\s\+") > 0
-			\|	:echo "signal already exists"
-			\|:elseif match(SignalRange, "\\d$") >= 0
-			\|	:silent execute 'normal `>Osignal '.NewSignal.'	:	std_logic_vector('.SignalRange.' downto 0);<Esc>'
-			\|:elseif match(SignalRange, "\)$") >= 0
-			\|	:silent execute 'normal `>Osignal '.NewSignal.'	:	std_logic_vector'.SignalRange.';<Esc>'
-			\|:else
-			\|	:silent execute 'normal `>Osignal '.NewSignal.'	:	std_logic;<Esc>'
-			\|:endif
-			\|:execute 'normal `z, '
+    autocmd FileType vhdl :command! -buffer -nargs=? SignalDeclaration 
+            \:let NewSignal = expand("<cword>")
+            \|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
+            \|:silent execute 'normal zoV]z<Esc>'
+            \|:let SignalRegion=getline(line("'<"),line("'>"))
+            \|:let SignalRange="<args>"
+            \|:if match(SignalRegion, "^\\s*signal\\s*".NewSignal."\\s\+") > 0
+            \|  :echo "signal already exists"
+            \|:elseif match(SignalRange, "\\d$") >= 0
+            \|  :silent execute 'normal `>Osignal '.NewSignal.' : std_logic_vector('.SignalRange.' downto 0);<Esc>'
+            \|:elseif match(SignalRange, "\)$") >= 0
+            \|  :silent execute 'normal `>Osignal '.NewSignal.' : std_logic_vector'.SignalRange.';<Esc>'
+            \|:else
+            \|  :silent execute 'normal `>Osignal '.NewSignal.' : std_logic;<Esc>'
+            \|:endif
+            \|:execute 'normal `z, '
 
 " }}}
 " Add fold with common formatting ========================================== {{{
-	autocmd FileType vhdl :command! -buffer -nargs=1 -range Fold 
-			\:let FoldName="<args>"
-			\|:let FoldNameLength=strlen(FoldName)
-			\|:let LeadingChars=(80 - FoldNameLength) / 2 - 1
-			\|:let TrailingChars=(77 - FoldNameLength) / 2 - 2
-			\|:execute 'normal '.<line2>.'Go<Esc>77i-<Esc>3a}<Esc>'
-			\|:execute 'normal '.<line1>.'GO<Esc>'.LeadingChars.'i-<Esc>a <Esc>'
-			\|:execute 'normal a'.FoldName.' <Esc>'.TrailingChars.'a-<Esc>3a{<Esc>'
+    autocmd FileType vhdl :command! -buffer -nargs=1 -range Fold 
+            \:let FoldName="<args>"
+            \|:let FoldNameLength=strlen(FoldName)
+            \|:let LeadingChars=(80 - FoldNameLength) / 2 - 1
+            \|:let TrailingChars=(77 - FoldNameLength) / 2 - 2
+            \|:execute 'normal '.<line2>.'Go<Esc>77i-<Esc>3a}<Esc>'
+            \|:execute 'normal '.<line1>.'GO<Esc>'.LeadingChars.'i-<Esc>a <Esc>'
+            \|:execute 'normal a'.FoldName.' <Esc>'.TrailingChars.'a-<Esc>3a{<Esc>'
 
 " }}}
 " Create testbench ========================================================= {{{
 autocmd Filetype vhdl :command! -buffer -nargs=1 Testbench 
-			\:let vhd_filename = tolower(expand("%:t:r"))
-			\|:let tb_filename = "tb_".vhd_filename
-			\|:silent execute 'normal /\C^\s\=entity<CR>'
-			\|:silent execute 'normal :Viy<CR>'
-			\|:silent execute 'normal , '
-			\|:if filereadable('tb/<args>/'.tb_filename.".vhd")
-			\|	:echo "filename already exists"
-			\|:else
-			\|	:silent execute 'normal :vsplit tb/<args>/'.tb_filename.".vhd".'<CR>'
-			\|	:silent execute 'normal gg/\C^\s\=entity<CR>'
-			\|	:silent execute 'normal j0d/\s\=port<CR>'
-			\|	:silent execute 'normal d%dd'
-			\|	:silent execute 'normal /\CSIGNAL DECLARATION<CR>'
-			\|	:silent execute 'normal j0d]z'
-			\|	:silent execute "normal Oconstant ClkPeriod		: time	:= 10 ns;<CR><CR>signal	clk	:	std_logic	:=	'0';<Esc>"
-			\|	:silent execute 'normal osignal reset	: std_logic;<CR><Esc>'
-			\|	:silent execute 'normal /^\s\=begin<CR>'
-			\|	:silent execute 'normal o<CR>clk <= not clk after ClkPeriod/2;<Esc>'
-			\|	:silent execute "normal o<CR>testloop : process begin<CR>reset <= '1';<CR>reset <= '0' after ClkPeriod*4;<CR>--		assert reset = '1' report <Esc>"
-			\|	:silent execute 'normal a"failure - reset = " & to_string(reset) severity failure;<CR>wait;<CR>end process;<Esc>'
-			\|	:silent execute 'normal gg/^\s\=architecture<CR>'
-			\|	:silent execute 'normal /^\s\=begin<CR>'
-			\|	:silent execute 'normal j, '
-			\|	:silent execute 'normal :Vii<CR>'
-			\|	:silent execute 'normal /\Cport<CR>/(<CR>%,av'
-			\|	:let Endofports = line(".")
-			\|	:silent execute 'normal %'
-			\|	:while line(".") < Endofports
-			\|		:if match(getline("."),'=>') >= 0
-			\|			:silent execute 'normal $'
-			\|			:let SigLength = expand("<cword>")
-			\|			:if SigLength == ')'
-			\|				:silent execute 'normal "zya('
-			\|			:endif
-			\|			:silent execute 'normal H/=><CR>w'
-			\|			:if SigLength == 'std_logic'
-			\|				:silent execute 'normal <A-s><CR>'
-			\|			:elseif SigLength == ')'
-			\|				:silent execute 'normal <A-s><C-r>z<CR>'
-			\|			:endif
-			\|			:silent execute 'normal mxvi(<Esc>`>'
-			\|			:let Endofports = line(".")
-			\|			:silent execute 'normal `x'
-			\|		:endif
-			\|		:silent execute 'normal j'
-			\|	:endwhile
-			\|:endif
-			\|:silent execute 'normal ,='
-			\|:silent execute 'normal ,as'
+            \:let vhd_filename = tolower(expand("%:t:r"))
+            \|:let tb_filename = "tb_".vhd_filename
+            \|:silent execute 'normal /\C^\s\=entity<CR>'
+            \|:silent execute 'normal :Viy<CR>'
+            \|:silent execute 'normal , '
+            \|:if filereadable('tb/<args>/'.tb_filename.".vhd")
+            \|  :echo "filename already exists"
+            \|:else
+            \|  :silent execute 'normal :vsplit tb/<args>/'.tb_filename.".vhd".'<CR>'
+            \|  :silent execute 'normal gg/\C^\s\=entity<CR>'
+            \|  :silent execute 'normal j0d/\s\=port<CR>'
+            \|  :silent execute 'normal d%dd'
+            \|  :silent execute 'normal /\CSIGNAL DECLARATION<CR>'
+            \|  :silent execute 'normal j0d]z'
+            \|  :silent execute "normal Oconstant ClkPeriod		: time	:= 10 ns;<CR><CR>signal	clk	:	std_logic	:=	'0';<Esc>"
+            \|  :silent execute 'normal osignal reset	: std_logic;<CR><Esc>'
+            \|  :silent execute 'normal /^\s\=begin<CR>'
+            \|  :silent execute 'normal o<CR>clk <= not clk after ClkPeriod/2;<Esc>'
+            \|  :silent execute "normal o<CR>testloop : process begin<CR>reset <= '1';<CR>reset <= '0' after ClkPeriod*4;<CR>--		assert reset = '1' report <Esc>"
+            \|  :silent execute 'normal a"failure - reset = " & to_string(reset) severity failure;<CR>wait;<CR>end process;<Esc>'
+            \|  :silent execute 'normal gg/^\s\=architecture<CR>'
+            \|  :silent execute 'normal /^\s\=begin<CR>'
+            \|  :silent execute 'normal j, '
+            \|  :silent execute 'normal :Vii<CR>'
+            \|  :silent execute 'normal /\Cport<CR>/(<CR>%,av'
+            \|  :let Endofports = line(".")
+            \|  :silent execute 'normal %'
+            \|  :while line(".") < Endofports
+            \|      :if match(getline("."),'=>') >= 0
+            \|          :silent execute 'normal $'
+            \|          :let SigLength = expand("<cword>")
+            \|          :if SigLength == ')'
+            \|              :silent execute 'normal "zya('
+            \|          :endif
+            \|          :silent execute 'normal H/=><CR>w'
+            \|          :if SigLength == 'std_logic'
+            \|              :silent execute 'normal <A-s><CR>'
+            \|          :elseif SigLength == ')'
+            \|              :silent execute 'normal <A-s><C-r>z<CR>'
+            \|          :endif
+            \|          :silent execute 'normal mxvi(<Esc>`>'
+            \|          :let Endofports = line(".")
+            \|          :silent execute 'normal `x'
+            \|      :endif
+            \|      :silent execute 'normal j'
+            \|  :endwhile
+            \|:endif
+            \|:silent execute 'normal ,='
+            \|:silent execute 'normal ,as'
 
 " }}}
 " Create run.do Modelsim Script ============================================ {{{
 autocmd Filetype vhdl :command! -buffer -nargs=? ModelsimScript 
-			\:let tb_filename = tolower(expand("%"))
-			\|:let run_filename = tolower(expand("%:t:r"))
-			\|:let source_path = escape('<args>', ' \')
-			\|:cd tb
-			\|:let tb_path = tolower(expand("%:h"))
-			\|:cd ..
-			\|:if empty(source_path)
-			\|	:let source_path = 'hdl'
-			\|:endif
-			\|:if filereadable('../testcase/'.tb_path.'/run.do')
-			\|	:echo "file already exists"
-			\|:else
-			\|	:silent execute 'normal :vsplit ../testcase/'.tb_path.'/run.do<CR>'
-			\|	:if has('win32')
-			\|		:read $VIM\vimfiles\ModelsimTemplate.do
-			\|	:else
-			\|		:read ~/.vim/ModelsimTemplate.do
-			\|	:endif
-			\|	:silent execute 'normal zRgg'
-			\|	:silent execute 'normal /\C^# SIMULATION SOURCE<CR>j'
-			\|	:if has('win32')
-			\|		:silent execute 'normal !!dir '. source_path .' /S /B /A-D<CR>'
-			\|	:else
-			\|		:silent execute 'normal !!find '. getcwd() . '/' . source_path .' -type f<CR>'
-			\|	:endif
-			\|	:silent execute 'normal /\C^# SIMULATION SOURCE<CR>j'
-			\|	:while (match(getline("."), "# }}") == -1)
-			\|		:if (match(getline("."),"[.]vhd$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivcom -work work -2008 -explicit		../../source/<Esc>j'
-			\|		:elseif (match(getline("."),"[.]v$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo		../../source/<Esc>j'
-			\|		:elseif (match(getline("."),"[.]sv$") >= 0)
-			\|			:silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo -sv	../../source/<Esc>j'
-			\|		:else
-			\|			:delete
-			\|		:endif
-			\|	:endwhile
-			\|	:if (match(tb_filename,"[.]vhd$") >= 0)
-			\|		:silent execute 'normal O<C-u>vcom -work work -2008 -explicit		../../source/'.tb_filename.'<CR><Esc>'
-			\|	:elseif (match(tb_filename,"[.]v$") >= 0)
-			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo		../../source/'.tb_filename.'<CR><Esc>'
-			\|	:elseif (match(tb_filename,"[.]sv$") >= 0)
-			\|		:silent execute 'normal O<C-u>vlog -incr -work work -nologo -sv	../../source/'.tb_filename.'<CR><Esc>'
-			\|	:endif
-			\|	:silent execute 'normal /\C^# INITIATE SIMULATION<CR>j'
-			\|	:while (match(getline("."), "# }}") == -1)
-			\|		:if (match(getline("."),"vsim") > -1) && (match(getline("."),"vsim") < 2)
-			\|			:silent execute 'normal A'.run_filename
-			\|		:endif
-			\|		:silent execute 'normal j'
-			\|	:endwhile
-			\|	:silent execute 'normal /\C^# SIMULATION SOURCE<CR>v]z:s/\\/\//g<CR>'
-			\|:endif
+            \:let tb_filename = tolower(expand("%"))
+            \|:let run_filename = tolower(expand("%:t:r"))
+            \|:let source_path = escape('<args>', ' \')
+            \|:cd tb
+            \|:let tb_path = tolower(expand("%:h"))
+            \|:cd ..
+            \|:if empty(source_path)
+            \|  :let source_path = 'hdl'
+            \|:endif
+            \|:if filereadable('../testcase/'.tb_path.'/run.do')
+            \|  :echo "file already exists"
+            \|:else
+            \|  :silent execute 'normal :vsplit ../testcase/'.tb_path.'/run.do<CR>'
+            \|  :if has('win32')
+            \|      :read $VIM\vimfiles\ModelsimTemplate.do
+            \|  :else
+            \|      :read ~/.vim/ModelsimTemplate.do
+            \|  :endif
+            \|  :silent execute 'normal zRgg'
+            \|  :silent execute 'normal /\C^# SIMULATION SOURCE<CR>j'
+            \|  :if has('win32')
+            \|      :silent execute 'normal !!dir '. source_path .' /S /B /A-D<CR>'
+            \|  :else
+            \|      :silent execute 'normal !!find '. getcwd() . '/' . source_path .' -type f<CR>'
+            \|  :endif
+            \|  :silent execute 'normal /\C^# SIMULATION SOURCE<CR>j'
+            \|  :while (match(getline("."), "# }}") == -1)
+            \|      :if (match(getline("."),"[.]vhd$") >= 0)
+            \|          :silent execute 'normal 0d/source<CR>dwxivcom -work work -2008 -explicit		../../source/<Esc>j'
+            \|      :elseif (match(getline("."),"[.]v$") >= 0)
+            \|          :silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo		../../source/<Esc>j'
+            \|      :elseif (match(getline("."),"[.]sv$") >= 0)
+            \|          :silent execute 'normal 0d/source<CR>dwxivlog -incr -work work -nologo -sv	../../source/<Esc>j'
+            \|      :else
+            \|          :delete
+            \|      :endif
+            \|  :endwhile
+            \|  :if (match(tb_filename,"[.]vhd$") >= 0)
+            \|      :silent execute 'normal O<C-u>vcom -work work -2008 -explicit		../../source/'.tb_filename.'<CR><Esc>'
+            \|  :elseif (match(tb_filename,"[.]v$") >= 0)
+            \|      :silent execute 'normal O<C-u>vlog -incr -work work -nologo		../../source/'.tb_filename.'<CR><Esc>'
+            \|  :elseif (match(tb_filename,"[.]sv$") >= 0)
+            \|      :silent execute 'normal O<C-u>vlog -incr -work work -nologo -sv ../../source/'.tb_filename.'<CR><Esc>'
+            \|  :endif
+            \|  :silent execute 'normal /\C^# INITIATE SIMULATION<CR>j'
+            \|  :while (match(getline("."), "# }}") == -1)
+            \|      :if (match(getline("."),"vsim") > -1) && (match(getline("."),"vsim") < 2)
+            \|          :silent execute 'normal A'.run_filename
+            \|      :endif
+            \|      :silent execute 'normal j'
+            \|  :endwhile
+            \|  :silent execute 'normal /\C^# SIMULATION SOURCE<CR>v]z:s/\\/\//g<CR>'
+            \|:endif
 
 " }}}
 " Abbreviations ============================================================ {{{
-	" NOTE: for multiline abbreviations, a space character is required after the
-	" abbreviation name!
-	autocmd FileType vhdl :iabbrev <buffer> new_process 
-				\<CR>process_name : process (i_clk)
-				\<CR>begin
-				\<CR>if rising_edge (i_clk) then
-				\<CR>if i_reset = '1' then
-				\<CR>;
-				\<CR>else
-				\<CR>;
-				\<CR>end if;
-				\<CR>end if;
-				\<CR>end process;
-	autocmd FileType vhdl :iabbrev <buffer> new_instance 
-				\<CR>instance_name : entity work.module_name
-				\<CR>port map (
-				\<CR><C-d><C-d>i_d			=>			,
-				\<CR>i_clk		=>	clk		,
-				\<CR>i_reset		=>	reset	,
-				\<CR>o_q			=>
-				\<CR><C-d>);
-	autocmd FileType vhdl :iabbrev <buffer> new_sm 
-				\<CR>---------------------------- STATE MACHINE ------------------------------{{{
-				\<CR>current_state_process : process (i_clk, i_reset)
-				\<CR>begin
-				\<CR>if i_reset = '1' then
-				\<CR>state <= IDLE;
-				\<CR>elsif rising_edge (i_clk) then
-				\<CR>state <= next_state;
-				\<CR>end if;
-				\<CR>end process current_state_process;
-				\<CR>
-				\<CR>next_state_process : process (state)
-				\<CR>begin
-				\<CR>case state is
-				\<CR>when IDLE =>
-				\<CR>next_state <= RUN;
-				\<CR>when RUN =>
-				\<CR>next_state <= IDLE;
-				\<CR>when others =>
-				\<CR>null;
-				\<CR>end case;
-				\<CR>end process next_state_process;
-				\<CR>
-				\<CR>state_machine_output : process (i_clk, i_reset, state)
-				\<CR>begin
-				\<CR>if rising_edge (i_clk) then
-				\<CR>if i_reset = '1' then
-				\<CR>state_machine_output <= '0';
-				\<CR>else
-				\<CR>case state is
-				\<CR>when IDLE =>
-				\<CR>state_machine_output <= '0';
-				\<CR>when RUN =>
-				\<CR>state_machine_output <= '1';
-				\<CR>when others =>
-				\<CR>null;
-				\<CR>end case;
-				\<CR>end if;
-				\<CR>end if;
-				\<CR>end process state_machine_output;
-				\<CR>-------------------------------------------------------------------------}}}
+    " NOTE: for multiline abbreviations, a space character is required after the
+    " abbreviation name!
+    autocmd FileType vhdl :iabbrev <buffer> new_process 
+                \<CR>process_name : process (i_clk)
+                \<CR>begin
+                \<CR>if rising_edge (i_clk) then
+                \<CR>if i_reset = '1' then
+                \<CR>;
+                \<CR>else
+                \<CR>;
+                \<CR>end if;
+                \<CR>end if;
+                \<CR>end process;
+    autocmd FileType vhdl :iabbrev <buffer> new_instance 
+                \<CR>instance_name : entity work.module_name
+                \<CR>port map (
+                \<CR>i_d     =>      ,
+                \<CR>i_clk   => clk   ,
+                \<CR>i_reset => reset ,
+                \<CR>o_q     =>
+                \<CR><C-d>);
+    autocmd FileType vhdl :iabbrev <buffer> new_sm 
+                \<CR>---------------------------- STATE MACHINE ------------------------------{{{
+                \<CR>current_state_process : process (i_clk, i_reset)
+                \<CR>begin
+                \<CR>if i_reset = '1' then
+                \<CR>state <= IDLE;
+                \<CR>elsif rising_edge (i_clk) then
+                \<CR>state <= next_state;
+                \<CR>end if;
+                \<CR>end process current_state_process;
+                \<CR>
+                \<CR>next_state_process : process (state)
+                \<CR>begin
+                \<CR>case state is
+                \<CR>when IDLE =>
+                \<CR>next_state <= RUN;
+                \<CR>when RUN =>
+                \<CR>next_state <= IDLE;
+                \<CR>when others =>
+                \<CR>null;
+                \<CR>end case;
+                \<CR>end process next_state_process;
+                \<CR>
+                \<CR>state_machine_output : process (i_clk, i_reset, state)
+                \<CR>begin
+                \<CR>if rising_edge (i_clk) then
+                \<CR>if i_reset = '1' then
+                \<CR>state_machine_output <= '0';
+                \<CR>else
+                \<CR>case state is
+                \<CR>when IDLE =>
+                \<CR>state_machine_output <= '0';
+                \<CR>when RUN =>
+                \<CR>state_machine_output <= '1';
+                \<CR>when others =>
+                \<CR>null;
+                \<CR>end case;
+                \<CR>end if;
+                \<CR>end if;
+                \<CR>end process state_machine_output;
+                \<CR>-------------------------------------------------------------------------}}}
 
-	autocmd FileType vhdl :iabbrev <buffer> slv std_logic_vector
-	autocmd FileType vhdl :iabbrev <buffer> sl std_logic
-	autocmd FileType vhdl :iabbrev <buffer> zoth (others => '0')
+    autocmd FileType vhdl :iabbrev <buffer> slv std_logic_vector
+    autocmd FileType vhdl :iabbrev <buffer> sl std_logic
+    autocmd FileType vhdl :iabbrev <buffer> zoth (others => '0')
 
 " }}}
 " Highlight Tags =========================================================== {{{
-	autocmd BufRead,BufNewFile *.vhd 
-				\:if(filereadable("tags.vim"))
-				\|	:silent source tags.vim
-				\|:endif
+    autocmd BufRead,BufNewFile,BufEnter *.vhd 
+                \:if(filereadable("tags.vim"))
+                \|  :silent source tags.vim
+                \|:endif
 " }}}
 " Map commands ============================================================= {{{
-	autocmd FileType vhdl :nnoremap <buffer> <A-H> :HexIncrement<CR>
-	autocmd FileType vhdl :nnoremap <buffer> <A-h> :HexDecrement<CR>
-	autocmd FileType vhdl :nnoremap <buffer> <A-_> :InsertUnderscores<CR>
-	autocmd FileType vhdl :nnoremap <buffer> <leader>av :FormatECI<CR>
-	autocmd FileType vhdl :nnoremap <buffer> <leader>as :SignalFormat<CR>
-	autocmd FileType vhdl :nnoremap <buffer> <A-s> :SignalDeclaration 
+    autocmd FileType vhdl :nnoremap <buffer> <A-H> :HexIncrement<CR>
+    autocmd FileType vhdl :nnoremap <buffer> <A-h> :HexDecrement<CR>
+    autocmd FileType vhdl :nnoremap <buffer> <A-_> :InsertUnderscores<CR>
+    autocmd FileType vhdl :nnoremap <buffer> <leader>av :FormatECI<CR>
+    autocmd FileType vhdl :nnoremap <buffer> <leader>as :SignalFormat<CR>
+    autocmd FileType vhdl :nnoremap <buffer> <A-s> :SignalDeclaration 
 " }}}
 
 augroup END " }}}
 " Verilog file specific ==================================================== {{{
 
 augroup filetype_verilog
-	autocmd!
+    autocmd!
 
 " Increment/Decrement a hex number preceded by h =========================== {{{
 " Insert underscores every 4 characters
 " Vim only supports 8 hex characters
 " This should probably be implemented as a function but I'm not a vim script
-" wizard so I got frustrated and gave up.	
-	autocmd FileType verilog_systemverilog :command! -buffer -nargs=? HexIncrement 
-				\:execute 'normal viw<Esc>'
-				\|:silent! s/\%V_//g
-				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><c-a>`<l2xe'
-				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
-				\|:execute 'normal l'
-				\|while numUnderscores>0
-					\|:execute 'normal 4hi_<Esc>'
-					\|:let numUnderscores=numUnderscores-1
-				\|:endwhile
-				\|:execute 'normal , be'
+" wizard so I got frustrated and gave up.
+    autocmd FileType verilog_systemverilog :command! -buffer -nargs=? HexIncrement 
+                \:execute 'normal viw<Esc>'
+                \|:silent! s/\%V_//g
+                \|:execute 'normal `<a0x'
+                \|:execute 'normal <args><c-a>`<l2xe'
+                \|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
+                \|:execute 'normal l'
+                \|while numUnderscores>0
+                    \|:execute 'normal 4hi_<Esc>'
+                    \|:let numUnderscores=numUnderscores-1
+                \|:endwhile
+                \|:execute 'normal , be'
 
-	autocmd FileType verilog_systemverilog :command! -buffer -nargs=? HexDecrement 
-				\:execute 'normal viw<Esc>'
-				\|:silent! s/\%V_//g
-				\|:execute 'normal `<a0x'
-				\|:execute 'normal <args><c-x>`<l2xe'
-				\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
-				\|:execute 'normal l'
-				\|while numUnderscores>0
-					\|:execute 'normal 4hi_<Esc>'
-					\|:let numUnderscores=numUnderscores-1
-				\|:endwhile
-				\|:execute 'normal , be'
+    autocmd FileType verilog_systemverilog :command! -buffer -nargs=? HexDecrement 
+                \:execute 'normal viw<Esc>'
+                \|:silent! s/\%V_//g
+                \|:execute 'normal `<a0x'
+                \|:execute 'normal <args><c-x>`<l2xe'
+                \|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
+                \|:execute 'normal l'
+                \|while numUnderscores>0
+                    \|:execute 'normal 4hi_<Esc>'
+                    \|:let numUnderscores=numUnderscores-1
+                \|:endwhile
+                \|:execute 'normal , be'
 " }}}
 " Add underscores every 4th character to number contained within quotes ==== {{{
-	autocmd FileType verilog_systemverilog :command! -buffer InsertUnderscores 
-			\:execute 'normal viw<Esc>'
-			\|:silent! s/\%V_//g
-			\|:execute 'normal `<'
-			\|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
-			\|:execute 'normal el'
-			\|while numUnderscores>0
-				\|:execute 'normal 4hi_<Esc>'
-				\|:let numUnderscores=numUnderscores-1
-			\|:endwhile
-			\|:execute 'normal , `<e'
+    autocmd FileType verilog_systemverilog :command! -buffer InsertUnderscores 
+            \:execute 'normal viw<Esc>'
+            \|:silent! s/\%V_//g
+            \|:execute 'normal `<'
+            \|:let numUnderscores=(strlen(expand('<cword>'))-2)/4
+            \|:execute 'normal el'
+            \|while numUnderscores>0
+                \|:execute 'normal 4hi_<Esc>'
+                \|:let numUnderscores=numUnderscores-1
+            \|:endwhile
+            \|:execute 'normal , `<e'
 " }}}
 " Highlight Tags =========================================================== {{{
-	autocmd BufRead,BufNewFile *.v 
-				\:if(filereadable("tags.vim"))
-				\|	:silent source tags.vim
-				\|:endif
+    autocmd BufRead,BufNewFile,BufEnter *.v,*.sv 
+                \:if(filereadable("tags.vim"))
+                \|  :silent source tags.vim
+                \|:endif
 " }}}
-" Map Commands ============================================================= {{{	
-	autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-H> :HexIncrement<CR>
-	autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-h> :HexDecrement<CR>
-	autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-_> :InsertUnderscores<CR>
+" Map Commands ============================================================= {{{
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-H> :HexIncrement<CR>
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-h> :HexDecrement<CR>
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-_> :InsertUnderscores<CR>
 " }}}
 
 augroup END " }}}
@@ -809,18 +814,22 @@ augroup END " }}}
 " Grep results are displayed in the quick fix window.
 " Allow <ESC> to close window
 augroup filetype_qf
-	autocmd!
-	autocmd FileType qf call s:quickfix_settings()
+    autocmd!
+    autocmd FileType qf call s:quickfix_settings()
 augroup END
 
 function! s:quickfix_settings()
-	nnoremap <buffer> <ESC> :q<CR>
+    nnoremap <buffer> <ESC> :q<CR>
 endfunction " }}}
 " Do files ================================================================= {{{
 augroup filetype_tcl
-	autocmd!
-	autocmd BufEnter,BufWrite *.do setfiletype tcl
-	autocmd BufEnter,BufWrite *.do set foldlevelstart=0
+    autocmd!
+    autocmd BufEnter,BufWrite *.do setfiletype tcl
+    autocmd BufEnter,BufWrite *.do set foldlevelstart=0
+    autocmd BufRead,BufNewFile,BufEnter *.do,*.tcl 
+                \:if(filereadable("tags.vim"))
+                \|  :silent source tags.vim
+                \|:endif
 augroup END " }}}
 
 " }}}
@@ -857,25 +866,25 @@ noremap <silent> <BS> :noh<CR>
 
 " Grep word under cursor - all files
 " including subfolders in new split
-nnoremap <leader>gW <C-W>v:execute "noautocmd lvimgrep/" . expand("<cword>") . "/gj **" <Bar> lw<CR>
+nnoremap <leader>gW :execute "noautocmd lvimgrep/" . expand("<cword>") . "/gj **" <Bar> lw<CR>
 
 " Grep word under cursor - only .vhd .v & .sv files
 " including subfolders in new split
-nnoremap <leader>gw <C-W>v:execute "noautocmd lvimgrep/" . expand("<cword>") . "/gj **/*.v **/*.sv **/*.vhd" <Bar> lw<CR>
+nnoremap <leader>gw :execute "noautocmd lvimgrep/" . expand("<cword>") . "/gj **/*.v **/*.sv **/*.vhd" <Bar> lw<CR>
 
 " Grep an expression - search files including subfolders - all files
 command! -nargs=1 GrepExpressionAll :execute "noautocmd lvimgrep/" . <args> ."/gj **" <Bar> lw <Bar>
-nnoremap <leader>gE <C-W>v:GrepExpressionAll "
+nnoremap <leader>gE :GrepExpressionAll "
 
 " Grep an expression - search files including subfolders - .v .vhd .sv only
 command! -nargs=1 GrepExpressionHDL :execute "noautocmd lvimgrep/" . <args> ."/gj **/*.v **/*.sv **/*.vhd" <Bar> lw <Bar>
-nnoremap <leader>ge <C-W>v:GrepExpressionHDL "
+nnoremap <leader>ge :GrepExpressionHDL "
 
 " Grep a selection - search files including subfolders - all files
-vnoremap <leader>gS "vy<Esc><C-W>v:execute "noautocmd lvimgrep/<C-r>v/gj **" <Bar> lw <CR>
+vnoremap <leader>gS "vy<Esc>:execute "noautocmd lvimgrep/<C-r>v/gj **" <Bar> lw <CR>
 
 " Grep a selection - search files including subfolders - .v .vhd .sv only
-vnoremap <leader>gs "vy<Esc><C-W>v:execute "noautocmd lvimgrep/<C-r>v/gj **/*.v **/*.sv **/*.vhd" <Bar> lw <CR>
+vnoremap <leader>gs "vy<Esc>:execute "noautocmd lvimgrep/<C-r>v/gj **/*.v **/*.sv **/*.vhd" <Bar> lw <CR>
 
 " }}}
 " AUTOCOMPLETE ============================================================= {{{
@@ -908,9 +917,9 @@ nnoremap <leader>x :call Visual_uncomment()<CR>
 vnoremap <leader>x :call Visual_uncomment()<CR>gv=
 
 augroup comment_settings
-	autocmd!
-	" Generate comment string specific to the file type - used for folding markers
-	autocmd BufReadPost,BufWritePost * call GenerateCommentString()
+    autocmd!
+    " Generate comment string specific to the file type - used for folding markers
+    autocmd BufReadPost,BufWritePost * call GenerateCommentString()
 augroup END
 
 " }}}
@@ -931,13 +940,6 @@ nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 noremap H ^
 noremap L $
 vnoremap L g_
-
-" Tab related mappings
-"nnoremap <C-t> :tabnew<CR>
-"nnoremap <C-h> :tabprev<CR>
-"nnoremap <C-l> :tabnext<CR>
-"nnoremap <C-left> :tabmove -1<CR>
-"nnoremap <C-right> :tabmove +1<CR>
 
 " Buffer related mappings
 nnoremap <C-space> :bn<CR>
@@ -967,23 +969,16 @@ nnoremap g, g,zvzz15
 " Be sure to set the path to the project root to get all files in the design
 "cabbrev ctags silent !ctags -R --languages=vhdl,verilog --vhdl-kinds=e --verilog-kinds=m<CR>:redraw!<CR>
 command! Ctags 
-			\:execute 'normal :silent !ctags -R --languages=vhdl,verilog --vhdl-kinds=e --verilog-kinds=m<CR>'
-			\|:redraw!
-			\|:split tags
-			\|:silent %s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/
-			\|:silent w! tags.vim
-			\|:silent bd!
-			\|:silent tabdo windo if((&filetype == 'vhdl') || (&filetype == 'verilog_systemverilog')) 
-			\|	:silent source tags.vim
-			\|:endif
-			\|:noh
-
-" Scroll inactive window
-"nnoremap <A-Y> <C-Y>
-"nnoremap <silent> <A-j> :call ScrollOtherWindow("down")<CR>
-"nnoremap <silent> <A-k> :call ScrollOtherWindow("up")<CR>
-"nnoremap <silent> <A-f> :call ScrollOtherWindow("pagedown")<CR>
-"nnoremap <silent> <A-b> :call ScrollOtherWindow("pageup")<CR>
+            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do,verilog:+.sv --languages=vhdl,verilog,tcl --vhdl-kinds=ePptTcf --verilog-kinds=m --tcl-kinds=p<CR>'
+            \|:redraw!
+            \|:split tags
+            \|:silent %s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/
+            \|:silent w! tags.vim
+            \|:silent bd!
+            \|:silent tabdo windo if((&filetype == 'vhdl') || (&filetype == 'verilog_systemverilog') || (&filetype == 'tcl'))
+            \|  :silent source tags.vim
+            \|:endif
+            \|:noh
 
 " Open File Manager or Terminal at the current working directory or the location
 " of the current file. I was using the vim-gtfo plugin; however, it does not
@@ -991,19 +986,19 @@ command! Ctags
 " If in the future, that plugin is updated, this section can be replaced.
 
 if has('win32')
-	nnoremap gof :silent exec '!start explorer '.expand("%:h")<CR>
-	nnoremap goF :silent exec '!start explorer '.getcwd()<CR>
-	nnoremap got :silent exec '!start '.$COMSPEC.' /k "cd "'.expand("%:h").'""'<CR>
-	nnoremap goT :silent exec '!start '.$COMSPEC<CR>
+    nnoremap gof :silent exec '!start explorer '.expand("%:h")<CR>
+    nnoremap goF :silent exec '!start explorer '.getcwd()<CR>
+    nnoremap got :silent exec '!start '.$COMSPEC.' /k "cd "'.expand("%:h").'""'<CR>
+    nnoremap goT :silent exec '!start '.$COMSPEC<CR>
 elseif has('unix')
-	if executable('xdg-open')
-    	nnoremap gof :silent exec "!xdg-open '".expand("%:h")."' &"<CR>
-    	nnoremap goF :silent exec "!xdg-open '".getcwd()."' &"<CR>
-	endif
-	if executable('konsole')
-		nnoremap got :silent exec 'silent ! konsole --workdir '.expand("%:h")<CR>
-		nnoremap goT :silent exec 'silent ! konsole'<CR>
-	endif
+    if executable('xdg-open')
+        nnoremap gof :silent exec "!xdg-open '".expand("%:h")."' &"<CR>
+        nnoremap goF :silent exec "!xdg-open '".getcwd()."' &"<CR>
+    endif
+    if executable('konsole')
+        nnoremap got :silent exec 'silent ! konsole --workdir '.expand("%:h")<CR>
+        nnoremap goT :silent exec 'silent ! konsole'<CR>
+    endif
 endif
 
 " }}}
@@ -1012,22 +1007,8 @@ endif
 " make Y work like C and D
 nnoremap Y y$
 
-" copy and paste from system clipboard
-"nnoremap <leader>p "*p
-"vnoremap <leader>y "*y
-
-" Load session via the gui
-noremap <leader>ls :browse so<CR>
-
-" Save session via the gui
-noremap <leader>ss :browse mksession!<CR>
-
 " Print a hardcopy
 nnoremap <leader>P :hardcopy<CR>
-
-" Map increment/decrement to alt-a and alt-x. <C-a> is select all in windows
-"nnoremap <A-a> <C-a>
-"nnoremap <A-x> <C-x>
 
 " Set increment and decrement commands to work for decimal and hex only.
 set nrformats=hex 
@@ -1046,7 +1027,7 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 
 " Move line or selection up
 nnoremap <C-k> :m .-2<CR>==
-inoremap <C-k> <Esc>:m .-2<CR>==gi
+"inoremap <C-k> <Esc>:m .-2<CR>==gi
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " Reselect visual block after indent/outdent
@@ -1062,10 +1043,6 @@ vnoremap <leader>" <Esc>`<i"<Esc>`>a"<Esc>
 vnoremap <leader>) <Esc>`<i(<Esc>`>a)<Esc>
 vnoremap <leader>( <Esc>`<i(<Esc>`>a)<Esc>
 
-" Vertical Split with Scroll Binding
-"noremap <leader>vs :vs<CR>
-"noremap <silent> <Leader>vS gg:<C-u>let @z=&so<CR>:set so=0 noscb<CR>:bo vs<CR>Ljzt:setl scb<CR><C-w>p:setl scb<CR>:let &so=@z<CR>
-
 " Eliminate dos format ^M characters in file
 cabbrev dos2unix %s/\r//g
 
@@ -1079,12 +1056,12 @@ cabbrev del_bl g/^\s*$/d
 " Change the current directory to the directory of the current file
 cabbrev fcd cd %:h
 
+" Print file directory of current file
+cabbrev pfd echo expand("%:p")
+
 " Change the current directory to the directory of the current file, then
 " if there is a tags file found in a parent directory, change to that directory
 cabbrev fcdt call FindRootDirectory()
-
-" Open help in a new tab
-"cabbrev ht tab help
 
 " Open help in a right vertical split
 cabbrev hr vertical rightbelow help
@@ -1127,15 +1104,15 @@ nnoremap <right> <nop>
 
 " Alignment command for , : ; < ( ) = " '
 " After <A-char>, type the column at which to align character then <CR>
-command! -nargs=1 -range AlignComma		:<line1>,<line2>normal 0f,20i<Tab>d<args>|
-command! -nargs=1 -range AlignColon		:<line1>,<line2>normal 0f:20i<Tab>d<args>|
-command! -nargs=1 -range AlignScolon	:<line1>,<line2>normal 0f;20i<Tab>d<args>|
-command! -nargs=1 -range AlignLt		:<line1>,<line2>normal 0f<20i<Tab>d<args>|
-command! -nargs=1 -range AlignOpenp		:<line1>,<line2>normal 0f(20i<Tab>d<args>|
-command! -nargs=1 -range AlignClosep	:<line1>,<line2>normal 0f)20i<Tab>d<args>|
-command! -nargs=1 -range AlignEqual		:<line1>,<line2>normal 0f=20i<Tab>d<args>|
-command! -nargs=1 -range AlignQuote		:<line1>,<line2>normal 0f"20i<Tab>d<args>|
-command! -nargs=1 -range AlignApos		:<line1>,<line2>normal 0f'20i<Tab>d<args>|
+command! -nargs=1 -range AlignComma     :<line1>,<line2>normal 0f,80i d<args>|
+command! -nargs=1 -range AlignColon     :<line1>,<line2>normal 0f:80i d<args>|
+command! -nargs=1 -range AlignScolon    :<line1>,<line2>normal 0f;80i d<args>|
+command! -nargs=1 -range AlignLt        :<line1>,<line2>normal 0f<80i d<args>|
+command! -nargs=1 -range AlignOpenp     :<line1>,<line2>normal 0f(80i d<args>|
+command! -nargs=1 -range AlignClosep    :<line1>,<line2>normal 0f)80i d<args>|
+command! -nargs=1 -range AlignEqual     :<line1>,<line2>normal 0f=80i d<args>|
+command! -nargs=1 -range AlignQuote     :<line1>,<line2>normal 0f"80i d<args>|
+command! -nargs=1 -range AlignApos      :<line1>,<line2>normal 0f'80i d<args>|
 vnoremap <A-,> :AlignComma 
 vnoremap <A-;> :AlignScolon 
 vnoremap <A-<> :AlignLt 
@@ -1148,37 +1125,36 @@ vnoremap <A-:> :AlignColon
 
 " Format file/selection with proper indentation
 nnoremap <leader>= mzgg=G`z<CR>
-"vnoremap = =gv
 
-" }}} 
+" }}}
 
 " }}}
 " TEMPLATE SETTINGS ======================================================== {{{
 
 augroup template_settings
-	autocmd!
+    autocmd!
 
-	" Load Template when creating new vhdl file
-	if has('win32')
-		autocmd BufNewFile *.vhd 0r $VIM\vimfiles\skeleton.vhd
-	elseif has('unix')
-		autocmd BufNewFile *.vhd 0r ~/.vim/skeleton.vhd
-	endif
+    " Load Template when creating new vhdl file
+    if has('win32')
+        autocmd BufNewFile *.vhd 0r $VIM\vimfiles\skeleton.vhd
+    elseif has('unix')
+        autocmd BufNewFile *.vhd 0r ~/.vim/skeleton.vhd
+    endif
 
-	" Evaluate expressions in template
-	autocmd BufNewFile * silent %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
+    " Evaluate expressions in template
+    autocmd BufNewFile * silent %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 
-	" Update Last Modified header field after each save
-	autocmd BufWritePre *.vhd call LastModified()
+    " Update Last Modified header field after each save
+    autocmd BufWritePre *.vhd call LastModified()
 
-	" Update module date after each save
-	autocmd BufWritePre *.vhd call LastModifiedReg1()
+    " Update module date after each save
+    autocmd BufWritePre *.vhd call LastModifiedReg1()
 
-	" Update module time after each save
-	autocmd BufWritePre *.vhd call LastModifiedReg2()
+    " Update module time after each save
+    autocmd BufWritePre *.vhd call LastModifiedReg2()
 
-	" Update last modified in vimrc
-	autocmd BufWritePre $MYVIMRC call LastModified()
+    " Update last modified in vimrc
+    autocmd BufWritePre $MYVIMRC call LastModified()
 
 augroup END
 
@@ -1260,81 +1236,6 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_exclude_filetypes = ['help', 'startify', 'text']
 
 " }}}
-" STARTIFY ================================================================= {{{
-
-let g:startify_list_order = ['files']
-let g:startify_skiplist = [ 
-			\ '_vimrc' ,
-			\ 'vimrc' ,
-			\ 'doc\.*' ]
-let g:startify_files_number = 26
-let g:startify_change_to_dir = 1
-let g:startify_enable_special = 0
-let g:startify_custom_footer = ' '
-
-" Set colors
-augroup filetype_startify
-	autocmd!
-	autocmd FileType startify highlight StartifyBracket	guifg=#6a9fb5 "blue
-	autocmd FileType startify highlight StartifyFile	guifg=#f4bf75 "yellow
-	autocmd FileType startify highlight StartifyHeader	guifg=#90a959 "green
-	autocmd FileType startify highlight StartifyFooter	guifg=#90a959 "green
-	autocmd FileType startify highlight StartifyNumber	guifg=#e0e0e0 "white
-	autocmd FileType startify highlight StartifyPath	guifg=#6a9fb5 "blue
-	autocmd FileType startify highlight StartifySlash	guifg=#f4bf75 "yellow
-	autocmd FileType startify highlight StartifySpecial	guifg=#f4bf75 "yellow
-augroup END
-" Fun header images {{{
-let g:startify_custom_header = [
-			\ '               ,''``.._   ,''``.								',
-			\ '              :,--._:)\,:,._,.:       All Glory to			',
-			\ '              :`--,''''   :`...'';\      the HYPNO TOAD!		',
-			\ '               `,''       `---''  `.							',
-			\ '               /                 :							',
-			\ '              /                   \							',
-			\ '            ,''                     :\.___,-.				',
-			\ '           `...,---''``````-..._    |:       \				',
-			\ '             (                 )   ;:    )   \  _,-.			',
-			\ '              `.              (   //          `''    \		',
-			\ '               :               `.//  )      )     , ;		',
-			\ '             ,-|`.            _,''/       )    ) ,'' ,''		',
-			\ '            (  :`.`-..____..=:.-'':     .     _,'' ,''		',
-			\ '             `,''\ ``--....-)=''    `._,  \  ,'') _ ''``._	',
-			\ '          _.-/ _ `.       (_)      /     )'' ; / \ \`-.''	',
-			\ '         `--(   `-:`.     `'' ___..''  _,-''   |/   `.)		',
-			\ '             `-. `.`.``-----``--,  .''						',
-			\ '               |/`.\`''        ,'',''); 						',
-			\ '                   `         (/  (/							',
-			\ ]
-
-"let g:startify_custom_header = [
-"			\ '               ,---. 						',
-"			\ '            ,.''-.   \ 						',
-"			\ '           ( ( ,''"""""-. 					',
-"			\ '           `,X          `. 					',
-"			\ '           /` `           `._ 				',
-"			\ '          (            ,   ,_\ 				',
-"			\ '          |          ,---.,''o `. 			',
-"			\ '          |         / o   \     ) 			',
-"			\ '           \ ,.    (      .____, 			',
-"			\ '            \| \    \____,''     \ 			',
-"			\ '          ''`''\  \        _,____,'' 		',
-"			\ '          \  ,--      ,-''     \ 			',
-"			\ '            ( C     ,''         \ 			',
-"			\ '             `--''  .''           | 			',
-"			\ '               |   |         .O | 			',
-"			\ '             __|    \        ,-''_ 			',
-"			\ '            / `L     `._  _,''  '' `. 		',
-"			\ '           /    `--.._  `'',.   _\  ` 		',
-"			\ '           `-.       /\  | `. ( ,\  \ 		',
-"			\ '          _/  `-._  /  \ |--''  (     \ 		',
-"			\ '         ''  `-.   `''    \/\`.   `.    ) 	',
-"			\ '               \           \ `.  |    | 		',
-"			\ ]
-
-" }}}
-
-" }}}
 
 " }}}
 " FUNCTIONS ================================================================ {{{
@@ -1344,15 +1245,15 @@ function! GenerateCommentString()
   let ext = tolower(expand('%:e'))
   let ext_vimrc = tolower(expand("%:t:r"))
   if ext == 'vhd'
-	set commentstring=\-\-%s
+    set commentstring=\-\-%s
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
-	set commentstring=\ \#%s
+    set commentstring=\ \#%s
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
-	set commentstring=\/\/%s
+    set commentstring=\/\/%s
   elseif &filetype == 'vim'
-	set commentstring=\ \"%s
+    set commentstring=\ \"%s
   elseif ext == 'm'
-  	set commentstring=\ \%%s
+    set commentstring=\ \%%s
   endif
 endfunction " }}}
 " Comment and Uncomment a block of text ==================================== {{{
@@ -1360,20 +1261,20 @@ function! Visual_comment()
   let ext = tolower(expand('%:e'))
   let ext_vimrc = tolower(expand("%:t:r"))
   if ext == 'php' || ext == 'rb' || ext == 'sh' || ext == 'py'
-	silent s/^/\#/
+    silent s/^/\#/
   elseif ext == 'js'
-	silent s:^:\/\/:g
+    silent s:^:\/\/:g
 "  elseif ext == 'vim' || ext_vimrc == '_vimrc'
   elseif &filetype == 'vim'
-	silent s:^:\":g
+    silent s:^:\":g
   elseif ext == 'vhd'
-	silent s:^:\-\-:g
+    silent s:^:\-\-:g
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
-	silent s:^:\#:g
+    silent s:^:\#:g
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
-	silent s:^:\/\/:g
+    silent s:^:\/\/:g
   elseif ext == 'm'
-	silent s:^:\%:g
+    silent s:^:\%:g
   endif
 endfunction
 
@@ -1381,20 +1282,20 @@ function! Visual_uncomment()
   let ext = tolower(expand('%:e'))
   let ext_vimrc = tolower(expand("%:t:r"))
   if ext == 'php' || ext == 'rb' || ext == 'sh' || ext == 'py'
-	silent! s/^\s*\#//
+    silent! s/^\s*\#//
   elseif ext == 'js'
-	silent! s:^\s*\/\/::g
+    silent! s:^\s*\/\/::g
   elseif &filetype == 'vim'
 "  elseif ext == 'vim' || ext_vimrc == '_vimrc'
-	silent! s:^\s*\"::g
+    silent! s:^\s*\"::g
   elseif ext == 'vhd'
-	silent! s:^\s*\-\-::g
+    silent! s:^\s*\-\-::g
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
-	silent! s:^\s*\#::g
+    silent! s:^\s*\#::g
   elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
-	silent! s:^\s*\/\/::g
+    silent! s:^\s*\/\/::g
   elseif ext == 'm'
-	silent! s:^\s*\%::g
+    silent! s:^\s*\%::g
   endif
 endfunction " }}}
 " Update module date after each save ======================================= {{{
@@ -1403,7 +1304,7 @@ function! LastModifiedReg1()
     let save_cursor = getpos(".")
     let n = min([80, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}module_date\s*:\s*out\s*std_logic_vector(31 downto 0) := x"\).*#\1' .
-          \ strftime('%m%d_%Y"	;') . '#e'
+          \ strftime('%m%d_%Y" ;') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
   endif
@@ -1414,7 +1315,7 @@ function! LastModifiedReg2()
     let save_cursor = getpos(".")
     let n = min([80, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}module_time\s*:\s*out\s*std_logic_vector(31 downto 0) := x"\).*#\1' .
-          \ strftime('%H%M_%S00"	;') . '#e'
+          \ strftime('%H%M_%S00" ;') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
   endif
@@ -1425,7 +1326,7 @@ function! LastModified()
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}Last Modified:\).*#\1' .
-          \ strftime('\t%d %b %Y  %I:%M%p') . '#e'
+          \ strftime('   %d %b %Y  %I:%M%p') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
   endif
@@ -1437,7 +1338,7 @@ endfunction " }}}
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+          \ | wincmd p | diffthis
 endif
 
 set diffopt=filler,vertical,context:0
@@ -1455,115 +1356,93 @@ nnoremap <leader>D :diffoff!<CR>
 " Maximize or restore window size ========================================== {{{
 let g:windowmaximized = 0
 function! MaxRestoreWindow()
-	if has('win32')
-		if g:windowmaximized == 1
-			let g:windowmaximized = 0
-			" restore the window
-			:simalt ~r
-		else
-			let g:windowmaximized = 1
-			" maximize the window
-			:simalt ~x
-		endif
-	elseif has('unix')
-		if g:windowmaximized == 1
-			let g:windowmaximized = 0
-			" restore the window
-			:call system('wmctrl -i -b remove,maximized_vert,maximized_horz -r '.v:windowid)
-		else
-			let g:windowmaximized = 1
-			" maximize the window
-			:call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
-		endif
-	endif
-endfunction " }}}
-" Scroll inactive window =================================================== {{{
-function! ScrollOtherWindow(dir)
-  exec "normal \<C-W>p"
-  if a:dir == "down"
-    let move = "\<C-E>"
-  elseif a:dir == "up"
-    let move = "\<A-Y>"
-  elseif a:dir == "pagedown"
-	  if line(".") < line("$")
-		  let move = "\<C-D>"
-	  else
-		  let move = ""
-	  endif
-  elseif a:dir == "pageup"
-	  if line(".") > 1
-    	let move = "\<C-U>"
-	  else
-		let move = ""
-	endif
-  endif
-  exec "normal " . move . "\<C-W>p"
+    if has('win32')
+        if g:windowmaximized == 1
+            let g:windowmaximized = 0
+            " restore the window
+            :simalt ~r
+        else
+            let g:windowmaximized = 1
+            " maximize the window
+            :simalt ~x
+        endif
+    elseif has('unix')
+        if g:windowmaximized == 1
+            let g:windowmaximized = 0
+            " restore the window
+            :call system('wmctrl -i -b remove,maximized_vert,maximized_horz -r '.v:windowid)
+        else
+            let g:windowmaximized = 1
+            " maximize the window
+            :call system('wmctrl -i -b add,maximized_vert,maximized_horz -r '.v:windowid)
+        endif
+    endif
 endfunction " }}}
 " Visual mode searching - handle special characters ======================== {{{
 function! s:VSetSearch(cmdtype)
-	let temp = @s
-	norm! gv"sy
-	let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-	let @s = temp
+    let temp = @s
+    norm! gv"sy
+    let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+    let @s = temp
 endfunction " }}}
 " Toggle ColorColumn ======================================================= {{{
 " if the textwidth is set to 0, alternate between off and lines at 80 & 120
 " if the textwidth is not 0, alternate between off and a line at textwdith+1
 function! ToggleCC()
-	if &textwidth=="0"
-		if &colorcolumn=="+1"
-			set colorcolumn=80,120
-		else
-			set colorcolumn=+1
-		endif
-	else
-		if &colorcolumn=="+1"
-			set colorcolumn=""
-		else
-			set colorcolumn=+1
-		endif
-	endif
+    if &textwidth=="0"
+        if &colorcolumn=="+1"
+            set colorcolumn=80,120
+        else
+            set colorcolumn=+1
+        endif
+    else
+        if &colorcolumn=="+1"
+            set colorcolumn=""
+        else
+            set colorcolumn=+1
+        endif
+    endif
 endfunction " }}}
 " Toggle FoldColumn ======================================================== {{{
 function! ToggleFoldColumn()
-	if &foldcolumn==0
-		set foldcolumn=4
-	else
-		set foldcolumn=0
-	endif
+    if &foldcolumn==0
+        set foldcolumn=4
+    else
+        set foldcolumn=0
+    endif
 endfunction "}}}
 " Find Root Directory ====================================================== {{{
 function! FindRootDirectory()
-	cd %:h	
-	if filereadable(findfile("tags",".;"))
-		while filereadable("tags")==0
-			cd..
-		endwhile
-	else
-		cd %:h
-	endif
-	if filereadable("tags.vim")
-		silent source tags.vim
-	endif	
+    cd %:h
+    if filereadable(findfile("tags",".;"))
+        while filereadable("tags")==0
+            cd..
+        endwhile
+    else
+        cd %:h
+    endif
+    if filereadable("tags.vim")
+        silent source tags.vim
+    endif
 endfunction " }}}
 " Check for commented line ================================================= {{{
 " Return 0 = no comment
 " Return 1 = comment at beginning of line
 " Return 2 = comment not at beginning of line
 function! LineContainsComment()
-	let save_cursor = getpos(".")
-	execute 'normal g_'
-	let CommentCheck = search("--", 'bn', line("."))
-	execute 'normal ^'
-	if CommentCheck == 0
-		let CommentOutput = 0
-	elseif getline(".")[col(".")-1] == '-'
-		let CommentOutput = 1
-	else
-		let CommentOutput = 2
-	endif
-	call setpos('.', save_cursor)
-	return CommentOutput
+    let save_cursor = getpos(".")
+    execute 'normal g_'
+    let CommentCheck = search("--", 'bn', line("."))
+    execute 'normal ^'
+    if CommentCheck == 0
+        let CommentOutput = 0
+    elseif getline(".")[col(".")-1] == '-'
+        let CommentOutput = 1
+    else
+        let CommentOutput = 2
+    endif
+    call setpos('.', save_cursor)
+    return CommentOutput
 endfunction "}}}
 " Auto mkdir =============================================================== {{{
 augroup auto_mkdir_group
