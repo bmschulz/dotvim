@@ -74,10 +74,6 @@ pathogen - helps to organize your plugins
 	https://github.com/tpope/vim-pathogen
 	version 2.2
 
-startify - custom start screen when you start vim without a file
-	http://www.vim.org/scripts/script.php?script_id=4544
-	version 1.8
-
 vip - VHDL Interface Plugin.  
 	There are many built in features but I primarily use it to capture a
 	vhdl entity and paste it as an instance.  I've modified this plugin as
@@ -147,8 +143,6 @@ This section provides a reminder about native, custom, and plugin added
 features I'd like to remember.  Modify this list as you see fit.
 
 FILES~
-,ss		save session
-,ls		load session
 ,P		print a hard copy
 got		open terminal at current file location
 goT		open terminal at current working directory
@@ -194,17 +188,18 @@ SEARCH~
 /^T	/T$	lines that start (end) with T
 /.	/\.	single character wildcard (literal .)
 /\CT		case sensitive search for T
-,<SPACE>	clear highlight
+,<SPACE>or<BS>  clear highlight
 
 REPLACE~
-:[range]s/old/new/g	replace all occurences of old with new in [range]
+:[range]s/old/new/g  replace all occurences of old with new in [range]
 
 JUMPS~
 z<CR>		position current line at top of screen
 <Tab>	<S-Tab>	JUMPS list forward (back)
 g,	g;	CHANGE list newer (older)
 <C-]>	<C-t>	TAG list forward (back)
-<C-w>]		TAG list in new  vertical split
+g]              list tags that match word under cursor
+<C-w>]		TAG list in new vertical split
 %		Go to the matching brace, parenthesis, keyword
 
 FOLDING~
@@ -244,6 +239,7 @@ USER ADDED FUNCTIONS~
 :del_ws		delete spaces and tabs at the end of lines in entire file
 :[range]del_bl	delete blank lines in selection (defaults to entire file)
 :Ctags		create tag file for current directory - vhdl & verilog only
+:Fold {name}    create a fold in common format with {name} as fold comment
 <A-s><CR>	create std_logic signal declaration for word under cursor
 <A-s>{number}<CR>
 		create std_logic_vector signal declaration {number} downto 0
@@ -262,6 +258,7 @@ USER ADDED FUNCTIONS~
 VHDL PLUGIN~
 :Viy		Yank entity under cursor
 :Vii		Insert instance of yanked entity
+:Vic		Insert component of yanked entity
 
 ==============================================================================
 LICENSE                                                 *vim_config-license*
