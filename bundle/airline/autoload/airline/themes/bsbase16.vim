@@ -25,9 +25,9 @@
 "
 " The array is in the format [ guifg, guibg, ctermfg, ctermbg, opts ].
 " The opts takes in values from ":help attr-list".
-let s:N1   = [ '#202020' , '#90a959' , 17  , 190 ]
-let s:N2   = [ '#ffffff' , '#444444' , 255 , 238 ]
-let s:N3   = [ '#ffffff' , '#202020' , 85  , 234 ]
+let s:N1   = [ '#202020' , '#90a959' , 235  , 77 ]
+let s:N2   = [ '#ffffff' , '#444444' , 255 , 8 ]
+let s:N3   = [ '#ffffff' , '#202020' , 255  , 235 ]
 
 " The file array is a special case, where only the foreground colors are
 " specified.  The background colors are automatically filled.
@@ -56,9 +56,9 @@ let g:airline#themes#bsbase16#palette.normal_modified = {
       \ }
 
 
-let s:I1 = [ '#202020' , '#f4bf75' , 17  , 45  ]
-let s:I2 = [ '#ffffff' , '#444444' , 255 , 27  ]
-let s:I3 = [ '#ffffff' , '#202020' , 15  , 17  ]
+let s:I1 = [ '#202020' , '#f4bf75' , 235  , 228  ]
+let s:I2 = [ '#ffffff' , '#444444' , 255 , 8  ]
+let s:I3 = [ '#ffffff' , '#202020' , 255  , 235  ]
 let g:airline#themes#bsbase16#palette.insert = airline#themes#generate_color_map(s:I1, s:I2, s:I3, s:file)
 let g:airline#themes#bsbase16#palette.insert_modified = {
       \ 'airline_c': [ '#d28445', s:I3[1] , s:I3[2], s:I3[3], ''     ] ,
@@ -68,18 +68,18 @@ let g:airline#themes#bsbase16#palette.insert_paste = {
       \ }
 
 
-let s:R1 = [ '#202020' , '#ac4142' , 17  , 45  ]
-let s:R2 = [ '#ffffff' , '#444444' , 255 , 27  ]
-let s:R3 = [ '#ffffff' , '#202020' , 15  , 17  ]
+let s:R1 = [ '#202020' , '#ac4142' , 235  , 160  ]
+let s:R2 = [ '#ffffff' , '#444444' , 255 , 8  ]
+let s:R3 = [ '#ffffff' , '#202020' , 255  , 235  ]
 let g:airline#themes#bsbase16#palette.replace = airline#themes#generate_color_map(s:R1, s:R2, s:R3, s:file)
 let g:airline#themes#bsbase16#palette.replace_modified = {
       \ 'airline_c': [ '#d28445', s:R3[1] , s:R3[2], s:R3[3], ''     ] ,
       \ }
 
 
-let s:V1 = [ '#202020' , '#aa759f' , 232 , 214 ]
-let s:V2 = [ '#ffffff' , '#444444' , 232 , 202 ]
-let s:V3 = [ '#ffffff' , '#202020' , 15  , 52  ]
+let s:V1 = [ '#202020' , '#aa759f' , 235 , 134 ]
+let s:V2 = [ '#ffffff' , '#444444' , 255 , 8 ]
+let s:V3 = [ '#ffffff' , '#202020' , 255  , 235  ]
 let g:airline#themes#bsbase16#palette.visual = airline#themes#generate_color_map(s:V1, s:V2, s:V3, s:file)
 let g:airline#themes#bsbase16#palette.visual_modified = {
       \ 'airline_c': [ '#d28445', s:V3[1] , s:V3[2], s:V3[3], ''     ] ,
@@ -103,9 +103,9 @@ if !get(g:, 'loaded_ctrlp', 0)
   finish
 endif
 let g:airline#themes#bsbase16#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(
-      \ [ '#ffffff' , '#444444' , 231 , 98  , ''     ],
-      \ [ '#6a9fb5' , '#202020' , 55  , 231 , ''     ],
-	\ [ '#202020' , '#6a9fb5' , 189 , 55  , 'bold' ])
+      \ [ '#ffffff' , '#444444' , 255 , 8  , ''     ],
+      \ [ '#6a9fb5' , '#202020' , 45  , 235 , ''     ],
+	\ [ '#202020' , '#6a9fb5' , 235 , 45  , 'bold' ])
 
 "      \ [ '#d7d7ff' , '#5f00af' , 189 , 55  , ''     ],
 "      \ [ '#ffffff' , '#875fd7' , 231 , 98  , ''     ],
