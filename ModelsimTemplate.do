@@ -13,10 +13,15 @@
 
 # }}}
 
+quit -sim
+quietly set recompile_source 1
+
 # DELETE AND RECREATE WORK LIBRARY ========================================= {{{
-vlib work
-rmdir /q /s work
-vlib work
+if {$recompile_source} {
+    vlib work
+    rmdir /q /s work
+    vlib work
+}
 # }}}
 
 # LOG THE SIMULATION ======================================================= {{{
@@ -32,15 +37,38 @@ echo "--- Simulation Starts ---"
 
 # }}}
 
+# CHOOSE TESTCASE ========================================================== {{{
+echo "Choose testcase to run \n" \
+		"1: case 1 \n" \
+		"2: case 2 \n" \
+
+quietly set choice_invalid 1
+
+while {$choice_invalid == 1} {
+	set testcase [read stdin 1]
+	switch $testcase {
+		1 {
+			set stimulus_file "case1.txt"
+			set choice_invalid 0
+		}
+		2 {
+			set stimulus_file "case2.txt"
+			set choice_invalid 0
+		}
+		default {
+			echo "Make a valid selection 1-2 and press <enter>"
+		}
+	}
+}
+# }}}
+#
 # INITIATE SIMULATION ====================================================== {{{
 #set IgnoreWarning 1
 #vsim -L work -L altera -L altera_mf -L altera_ver -L altera_mf_ver -t ps work.
-vsim -L work -L unisim -L unisim_ver -L xilinx_corelib -L xilinx_corelib_ver -t ps work.
-#run 50 ps
-#set IgnoreWarning 0
+vsim -novopt -L work -L unisim -L unisim_ver -L xilinx_corelib -L xilinx_corelib_ver -msgmode both -gSTIMULUS_FILE=$stimulus_file -t ps work.
 radix -hex
 view wave
-add wave -r /*
+add wave -noupdate -r /*
 # }}}
 
 # RUN SIMULATION =========================================================== {{{
