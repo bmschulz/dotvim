@@ -135,7 +135,7 @@ nnoremap <silent> <leader>w :set wrap!<CR>
 
 " List Mode
 set nolist
-set listchars=tab:>=,eol:¬,extends:>,precedes:<,trail:?
+set listchars=tab:>=,eol:Â¬,extends:>,precedes:<,trail:?
 
 " Toggles invisible characters
 nnoremap <silent> <leader>ic :set nolist!<CR>
@@ -969,7 +969,7 @@ nnoremap g, g,zvzz15
 " Be sure to set the path to the project root to get all files in the design
 "cabbrev ctags silent !ctags -R --languages=vhdl,verilog --vhdl-kinds=e --verilog-kinds=m<CR>:redraw!<CR>
 command! Ctags 
-            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do,verilog:+.sv --languages=vhdl,verilog,tcl --vhdl-kinds=ePptTcf --verilog-kinds=m --tcl-kinds=p<CR>'
+            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do,verilog:+.sv --languages=vhdl,verilog,tcl --vhdl-kinds=efPptTcf --verilog-kinds=m --tcl-kinds=p<CR>'
             \|:redraw!
             \|:split tags
             \|:silent %s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/
@@ -990,6 +990,10 @@ if has('win32')
     nnoremap goF :silent exec '!start explorer '.getcwd()<CR>
     nnoremap got :silent exec '!start '.$COMSPEC.' /k "cd "'.expand("%:h").'""'<CR>
     nnoremap goT :silent exec '!start '.$COMSPEC<CR>
+    if executable('mintty')
+        nnoremap goc :silent exec '!start '.$COMSPEC.' /k "cd "'.expand("%:h").'""'.' & mintty & exit'<CR>
+        nnoremap goC :silent exec '!start mintty'<CR>
+    endif
 elseif has('unix')
     if executable('xdg-open')
         nnoremap gof :silent exec "!xdg-open '".expand("%:h")."' &"<CR>
