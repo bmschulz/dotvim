@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:   22 May 2018  01:14PM
+"  Last Modified:   22 May 2018  03:04PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -1180,7 +1180,7 @@ autocmd FileType verilog_systemverilog :command! -buffer Vlp
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <leader>av :FormatMI<CR>
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-w> :WireDeclaration 
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <leader>as :SignalFormat<CR>
-    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-s> :LogicDeclaration 
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-l> :LogicDeclaration 
 " }}}
 
 augroup END " }}}
