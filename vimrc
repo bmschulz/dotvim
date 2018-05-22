@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:   10 Apr 2017  11:03AM
+"  Last Modified:   22 May 2018  01:14PM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -117,8 +117,8 @@ augroup cline
 augroup END
 
 " Set tab size
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 
 " Set font
@@ -135,7 +135,7 @@ nnoremap <silent> <leader>w :set wrap!<CR>
 
 " List Mode
 set nolist
-set listchars=tab:>=,eol:Â¬,extends:>,precedes:<,trail:?
+set listchars=tab:>=,eol:¬,extends:>,precedes:<,trail:?
 
 " Toggles invisible characters
 nnoremap <silent> <leader>ic :set nolist!<CR>
@@ -330,7 +330,7 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() == 1
+                \|      :if LineContainsComment() == 1 || LineContainsComment() == 3
                 \|          :continue
                 \|      :elseif LineContainsComment() == 2
                 \|          :execute 'normal /--<CR>F,'
@@ -338,6 +338,7 @@ augroup filetype_vhdl
                 \|          :if getline(".")[col(".")-1] != ','
                 \|              :execute 'normal i,<Esc>'
                 \|          :endif
+                \|          :execute 'normal 2a <Esc>dw'
                 \|      :else
                 \|          :execute 'normal g_'
                 \|          :if getline(".")[col(".")-1] != ','
@@ -356,14 +357,14 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>"))
                 \|      :execute 'normal j'
-                \|      :if LineContainsComment() != 1
+                \|      :if LineContainsComment() == 0 || LineContainsComment() == 2
                 \|          :execute 'normal 0f=80i d' . (EqualColumnMax+2) . '|'
                 \|      :endif
                 \|  :endwhile
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() == 1
+                \|      :if LineContainsComment() == 1 || LineContainsComment() == 3
                 \|          :continue
                 \|      :else
                 \|          :execute 'normal f,h'
@@ -378,15 +379,15 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() != 1
-                \|          :execute 'normal 0f,20i d' . (CommaColumnMax+2) . '|x'
+                \|      :if LineContainsComment() == 0 || LineContainsComment() == 2
+                \|          :execute 'normal 0f,80i d' . (CommaColumnMax+2) . '|x'
                 \|      :endif
                 \|  :endwhile
                 \|  :execute 'normal `>k'
-                \|  :while LineContainsComment() == 1
+                \|  :while LineContainsComment() == 1 || LineContainsComment() == 3
                 \|      :execute 'normal k'
                 \|  :endwhile
-                \|  :execute 'normal ^f,x`>'
+                \|  :execute 'normal ^f,r `>'
                 \|  :silent '<,'>s/\s*$//
                 \|  :noh
                 \|:elseif EntityCheck != 0
@@ -397,7 +398,7 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() == 1
+                \|      :if LineContainsComment() == 1 || LineContainsComment() == 3
                 \|          :continue
                 \|      :elseif LineContainsComment() == 2
                 \|          :execute 'normal /--<CR>F;'
@@ -405,6 +406,7 @@ augroup filetype_vhdl
                 \|          :if getline(".")[col(".")-1] != ';'
                 \|              :execute 'normal i;<Esc>'
                 \|          :endif
+                \|          :execute 'normal 2a <Esc>dw'
                 \|      :else
                 \|          :execute 'normal g_'
                 \|          :if getline(".")[col(".")-1] != ';'
@@ -429,14 +431,14 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>"))
                 \|      :execute 'normal j'
-                \|      :if LineContainsComment() != 1
+                \|      :if LineContainsComment() == 0 || LineContainsComment() == 2
                 \|          :execute 'normal 0f:80i d' . (ColonColumnMax+2) . '|'
                 \|      :endif
                 \|  :endwhile
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() == 1
+                \|      :if LineContainsComment() == 1 || LineContainsComment() == 3
                 \|          :continue
                 \|      :else
                 \|          :execute 'normal f;h'
@@ -451,15 +453,15 @@ augroup filetype_vhdl
                 \|  :execute 'normal `<'
                 \|  :while line(".") < (line("'>") - 1)
                 \|      :execute 'normal j^'
-                \|      :if LineContainsComment() != 1
+                \|      :if LineContainsComment() == 0 || LineContainsComment() == 2
                 \|          :execute 'normal 0f;80i d' . (ScolonColumnMax+2) . '|x'
                 \|      :endif
                 \|  :endwhile
                 \|  :execute 'normal `>k'
-                \|  :while LineContainsComment() == 1
+                \|  :while LineContainsComment() == 1 || LineContainsComment() == 3
                 \|      :execute 'normal k'
                 \|  :endwhile
-                \|  :execute 'normal ^f;x`>'
+                \|  :execute 'normal ^f;r `>'
                 \|  :silent '<,'>s/\s*$//
                 \|  :noh
                 \|:endif
@@ -752,6 +754,7 @@ augroup END " }}}
 
 augroup filetype_verilog
     autocmd!
+    autocmd BufEnter,BufWrite *.veo setfiletype verilog_systemverilog
 
 " Increment/Decrement a hex number preceded by h =========================== {{{
 " Insert underscores every 4 characters
@@ -797,16 +800,387 @@ augroup filetype_verilog
             \|:endwhile
             \|:execute 'normal , `<e'
 " }}}
+" Format Module or Instance ================================================ {{{
+    " First Check whether it is an instance or a module - if the word module
+    " isn't present, assume it is an instance - this means bad things will
+    " happen if called outside the range of the module or instance parenthesis
+    "
+    " Use vim's built in indent =
+    " Append a , for instances or module if not present and align trailing
+    " comment if present
+    " Prepend a . for instances if not present
+    " Remove , for instance or module in the last line if present
+    " Align at (
+    " Align at ,
+    " Remove trailing white space
+    " Commented lines are ignored, comments at end of line are preserved
+    autocmd Filetype verilog_systemverilog :command! -buffer FormatMI 
+                \:execute 'normal va(<Esc>'
+                \|:execute 'normal `<'
+                \|:let ModuleCheck = search('module', 'bn', line(".")-1)
+                \|:if ModuleCheck == 0
+                \|  :let ParenColumnMax = 0
+                \|  :let CommaColumnMax = 0
+                \|  :execute 'normal va(ok=<Esc>'
+                \|  :execute 'normal 2jva(<Esc>'
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|          :continue
+                \|      :elseif LineContainsCommentVerilog() == 2
+                \|          :execute 'normal /\/\/<CR>F,'
+                \|          :noh
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal i,<Esc>'
+                \|          :endif
+                \|          :execute 'normal 2a <Esc>dw'
+                \|          :execute 'normal ^'
+                \|          :if getline(".")[col(".")-1] != '.'
+                \|              :execute 'normal i.<Esc>'
+                \|          :endif
+                \|      :else
+                \|          :execute 'normal g_'
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal a,<Esc>'
+                \|          :endif
+                \|          :execute 'normal ^'
+                \|          :if getline(".")[col(".")-1] != '.'
+                \|              :execute 'normal i.<Esc>'
+                \|          :endif
+                \|      :endif
+                \|      :execute 'normal ^f(h'
+                \|      :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|          :execute 'normal diw'
+                \|      :else
+                \|          :execute 'normal l'
+                \|      :endif
+                \|      :let ParenColumnMax = max([ParenColumnMax,virtcol('.')-1])
+                \|      :execute 'normal i <esc>'
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>"))
+                \|      :execute 'normal j'
+                \|      :if LineContainsCommentVerilog() == 0 || LineContainsCommentVerilog() == 2
+                \|          :execute 'normal 0f(80i d' . (ParenColumnMax+2) . '|'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|          :continue
+                \|      :else
+                \|          :execute 'normal f,h'
+                \|          :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|              :execute 'normal diw'
+                \|          :else
+                \|              :execute 'normal l'
+                \|          :endif
+                \|          :let CommaColumnMax = max([CommaColumnMax,virtcol('.')-1])
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 0 || LineContainsCommentVerilog() == 2
+                \|          :execute 'normal 0f,80i d' . (CommaColumnMax+2) . '|x'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `>k'
+                \|  :while LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|      :execute 'normal k'
+                \|  :endwhile
+                \|  :execute 'normal ^f,r `>'
+                \|  :silent '<,'>s/\s*$//
+                \|  :noh
+                \|:else
+                \|  :let Word2ColumnMax = 0
+                \|  :execute 'normal va(jok=<Esc>'
+                \|  :execute 'normal 2jva(<Esc>'
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|          :continue
+                \|      :elseif LineContainsCommentVerilog() == 2
+                \|          :execute 'normal /\/\/<CR>F,'
+                \|          :noh
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal i,<Esc>'
+                \|          :endif
+                \|          :execute 'normal 2a <Esc>dw'
+                \|      :else
+                \|          :execute 'normal g_'
+                \|          :if getline(".")[col(".")-1] != ','
+                \|              :execute 'normal a,<Esc>'
+                \|          :endif
+                \|      :endif
+                \|      :execute 'normal ^whdiwi l'
+                \|      :let Word2ColumnMax = max([Word2ColumnMax,virtcol('.')-1])
+                \|      :execute 'normal l'
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>"))
+                \|      :execute 'normal j'
+                \|      :if LineContainsCommentVerilog() == 0 || LineContainsCommentVerilog() == 2
+                \|          :execute 'normal ^w80i d' . (Word2ColumnMax+1) . '|'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :let SignalColumnMax = 0
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|          :continue
+                \|      :else
+                \|          :execute 'normal f,bh'
+                \|          :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|              :execute 'normal diwi <Esc>l'
+                \|          :else
+                \|              :execute 'normal i <Esc>l'
+                \|          :endif
+                \|          :let SignalColumnMax = max([SignalColumnMax,virtcol('.')-1])
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 0 || LineContainsCommentVerilog() == 2
+                \|          :execute 'normal 0f,b80i d' . (SignalColumnMax+2) . '|x'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :let CommaColumnMax = 0
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|          :continue
+                \|      :else
+                \|          :execute 'normal f,h'
+                \|          :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+                \|              :execute 'normal diw'
+                \|          :else
+                \|              :execute 'normal l'
+                \|          :endif
+                \|          :let CommaColumnMax = max([CommaColumnMax,virtcol('.')-1])
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `<'
+                \|  :while line(".") < (line("'>") - 1)
+                \|      :execute 'normal j^'
+                \|      :if LineContainsCommentVerilog() == 0 || LineContainsCommentVerilog() == 2
+                \|          :execute 'normal 0f,80i d' . (CommaColumnMax+2) . '|x'
+                \|      :endif
+                \|  :endwhile
+                \|  :execute 'normal `>k'
+                \|  :while LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+                \|      :execute 'normal k'
+                \|  :endwhile
+                \|  :execute 'normal ^f,r `>'
+                \|  :silent '<,'>s/\s*$//
+                \|  :noh
+                \|:endif
+" }}}
+" Align signal declarations ================================================ {{{
+autocmd Filetype verilog_systemverilog :command! -buffer SignalFormat 
+            \|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
+            \|:silent execute 'normal zoV]z=<Esc>'
+            \|:execute 'normal `<j^'
+            \|:let NameColumnMax = 0
+            \|:let ScolonColumnMax = 0
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*logic') || (getline(".") =~? '^\s*wire') || (getline(".") =~? '^\s*reg') || (getline(".") =~? '^\s*integer') || (getline(".") =~? '^\s*real') || (getline(".") =~? '^\s*time') || (getline(".") =~? '^\s*parameter') || (getline(".") =~? '^\s*localparam') || (getline(".") =~? '^\s*int') || (getline(".") =~? '^\s*bit') || (getline(".") =~? '^\s*byte') || (getline(".") =~? '^\s*shortint') || (getline(".") =~? '^\s*longint') || (getline(".") =~? '^\s*string') || (getline(".") =~? '^\s*event') || (getline(".") =~? '^\s*typedef')
+            \|      :if LineContainsCommentVerilog() == 2
+            \|          :execute 'normal /\/\/<CR>F;'
+            \|          :noh
+            \|          :if getline(".")[col(".")-1] != ';'
+            \|              :execute 'normal i;<Esc>'
+            \|          :endif
+            \|      :else
+            \|          :execute 'normal g_'
+            \|          :if getline(".")[col(".")-1] != ';'
+            \|              :execute 'normal a;<Esc>'
+            \|          :endif
+            \|      :endif
+            \|      :execute 'normal ^eldiwi <esc>l'
+            \|      :while getline(".")[col(".")-1] == '['
+            \|          :execute 'normal f]l'
+            \|          :if getline(".")[col(".")-1] == '\s'
+            \|              :execute 'normal dw'
+            \|          :endif
+            \|      :endwhile
+            \|      :execute 'normal i <Esc>l'
+            \|      :let NameColumnMax = max([NameColumnMax,virtcol('.')-1])
+            \|      :execute 'normal 80i <Esc>'
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:execute 'normal `<j^'
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*logic') || (getline(".") =~? '^\s*wire') || (getline(".") =~? '^\s*reg') || (getline(".") =~? '^\s*integer') || (getline(".") =~? '^\s*real') || (getline(".") =~? '^\s*time') || (getline(".") =~? '^\s*parameter') || (getline(".") =~? '^\s*localparam') || (getline(".") =~? '^\s*int') || (getline(".") =~? '^\s*bit') || (getline(".") =~? '^\s*byte') || (getline(".") =~? '^\s*shortint') || (getline(".") =~? '^\s*longint') || (getline(".") =~? '^\s*string') || (getline(".") =~? '^\s*event') || (getline(".") =~? '^\s*typedef')
+            \|      :execute 'normal ' . (NameColumnMax+2) . '|dwf;h'
+            \|      :if getline(".")[col(".")-1] == ' ' || getline(".")[col(".")-1] == '	'
+            \|          :execute 'normal diw'
+            \|      :else
+            \|          :execute 'normal l'
+            \|      :endif
+            \|      :let ScolonColumnMax = max([ScolonColumnMax,virtcol('.')-1]) 
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:execute 'normal `<^'
+            \|:while line(".") <= (line("'>"))
+            \|  :if (getline(".") =~? '^\s*logic') || (getline(".") =~? '^\s*wire') || (getline(".") =~? '^\s*reg') || (getline(".") =~? '^\s*integer') || (getline(".") =~? '^\s*real') || (getline(".") =~? '^\s*time') || (getline(".") =~? '^\s*parameter') || (getline(".") =~? '^\s*localparam') || (getline(".") =~? '^\s*int') || (getline(".") =~? '^\s*bit') || (getline(".") =~? '^\s*byte') || (getline(".") =~? '^\s*shortint') || (getline(".") =~? '^\s*longint') || (getline(".") =~? '^\s*string') || (getline(".") =~? '^\s*event') || (getline(".") =~? '^\s*typedef')
+            \|      :execute 'normal 0f;80i d' . (ScolonColumnMax+2) . '|x'
+            \|  :endif
+            \|  :execute 'normal j^'
+            \|:endwhile
+            \|:silent '<,'>s/\s*$//
+            \|:execute 'normal `z, '
+" }}}
+" Create wire declaration ================================================== {{{
+" Yank word at cursor, check if wire declaration exists, if not add wire of
+" user provided length.  if no length provided, length is not included
+    autocmd FileType verilog_systemverilog :command! -buffer -nargs=? WireDeclaration 
+            \:let NewSignal = expand("<cword>")
+            \|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
+            \|:silent execute 'normal zoV]z<Esc>'
+            \|:let SignalRegion=getline(line("'<"),line("'>"))
+            \|:let SignalRange="<args>"
+            \|:if match(SignalRegion, "^\\s*wire\\s*.*".NewSignal."\\s*") > 0
+            \|  :echo "signal already exists"
+            \|:elseif match(SignalRange, "\\d$") >= 0
+            \|  :silent execute 'normal `>Owire ['.SignalRange.':0] '.NewSignal.';<Esc>'
+            \|  :silent execute 'normal ,x <Esc>'
+            \|:else
+            \|  :silent execute 'normal `>Owire    '.NewSignal.';<Esc>'
+            \|  :silent execute 'normal ,x <Esc>'
+            \|:endif
+            \|:execute 'normal `z, '
+" }}}
+" Create logic declaration ================================================= {{{
+" Yank word at cursor, check if logic declaration exists, if not add logic of
+" user provided length.  if no length provided, length is not included
+    autocmd FileType verilog_systemverilog :command! -buffer -nargs=? LogicDeclaration 
+            \:let NewSignal = expand("<cword>")
+            \|:silent execute 'normal mz/\CSIGNAL DECLARATION<CR>'
+            \|:silent execute 'normal zoV]z<Esc>'
+            \|:let SignalRegion=getline(line("'<"),line("'>"))
+            \|:let SignalRange="<args>"
+            \|:if match(SignalRegion, "^\\s*logic\\s*.*".NewSignal."\\s*") > 0
+            \|  :echo "signal already exists"
+            \|:elseif match(SignalRange, "\\d$") >= 0
+            \|  :silent execute 'normal `>Ologic ['.SignalRange.':0] '.NewSignal.';<Esc>'
+            \|  :silent execute 'normal ,x <Esc>'
+            \|:else
+            \|  :silent execute 'normal `>Ologic    '.NewSignal.';<Esc>'
+            \|  :silent execute 'normal ,x <Esc>'
+            \|:endif
+            \|:execute 'normal `z, '
+" }}}
+" Verilog module yank ====================================================== {{{
+" uses marks t and u to copy
+autocmd FileType verilog_systemverilog :command! -buffer Vly 
+      \:let VlModuleName = expand("<cword>")
+      \|:let VlParamCheck = search('#', '', line("."))
+      \|:if VlParamCheck == 0
+      \|  :silent echo search('(','',line("."))
+      \|:endif
+      \|:silent execute 'normal mt'
+      \|:echo search(");",'',line("W$"))
+      \|:silent execute 'normal lmu'
+      \|:silent execute 'normal `t"vy`u'
+      \|:let @v=@v.';'
+" }}}
+" Verilog instance put ===================================================== {{{
+" uses marks v and w to copy
+autocmd FileType verilog_systemverilog :command! -buffer Vlp 
+      \:silent execute 'normal mvjHmw`v'
+      \|:silent execute 'normal "vp'
+      \|:silent execute 'normal i'.VlModuleName.' '.VlModuleName.'_0 '
+      \|:if VlParamCheck != 0
+      \|  :silent echo search('#', '', line("."))
+      \|  :silent echo search('(', '', line(".")+1)
+      \|  :silent execute 'normal %'
+      \|:endif
+      \|:while line(".") < (line("'w") - 2)
+      \|  :silent execute 'normal j^'
+      \|  :if (match(getline("."),"^\\s*\($") != -1)
+      \|    :continue
+      \|  :elseif LineContainsCommentVerilog() == 1 || LineContainsCommentVerilog() == 3
+      \|    :continue
+      \|  :elseif LineContainsCommentVerilog() == 2
+      \|    :silent execute 'normal 2w'
+      \|    :while getline(".")[col(".")-1] == '['
+      \|      :silent execute 'normal %a <Esc>dw'
+      \|    :endwhile
+      \|    :silent execute 'normal d^ea ()<Esc>f/lpHi.<Esc>'
+      \|  :else
+      \|    :silent execute 'normal 2w'
+      \|    :while getline(".")[col(".")-1] == '['
+      \|      :silent execute 'normal %a <Esc>dw'
+      \|    :endwhile
+      \|    :silent execute 'normal d^ea ()<Esc>f,'
+      \|    :silent execute 'normal a //<Esc>pHi.<Esc>'
+      \|  :endif
+      \|:endwhile
+" }}}
+" Add fold with common formatting ========================================== {{{
+    autocmd FileType verilog_systemverilog :command! -buffer -nargs=1 -range Fold 
+            \:let FoldName="<args>"
+            \|:let FoldNameLength=strlen(FoldName)
+            \|:let LeadingChars=(80 - FoldNameLength) / 2 - 4
+            \|:let TrailingChars=(77 - FoldNameLength) / 2 - 3
+            \|:execute 'normal '.<line2>.'Go<Esc>2i/<Esc>74a-<Esc>3a}<Esc>'
+            \|:execute 'normal '.<line1>.'GO<Esc>2i/<Esc>'.LeadingChars.'a-<Esc>a '.FoldName.' <Esc>'.TrailingChars.'a-<Esc>3a{<Esc>'
+" }}}
 " Highlight Tags =========================================================== {{{
     autocmd BufRead,BufNewFile,BufEnter *.v,*.sv 
                 \:if(filereadable("tags.vim"))
                 \|  :silent source tags.vim
                 \|:endif
 " }}}
+" Abbreviations ============================================================ {{{
+    autocmd FileType verilog_systemverilog :iabbrev <buffer> new_sm 
+                \<CR><c-d><c-d>//---------------------------- STATE MACHINE ------------------------------{{{
+                \<CR><c-w><c-d>typedef enum logic [1:0] {IDLE, RUN} state_type;
+                \<CR>state_type state, next_state;
+                \<CR>always_ff @ (posedge i_clk)
+                \<CR>if (i_reset == 1'b1) begin
+                \<CR>state <= IDLE;
+                \<CR>end else begin
+                \<CR>state <= next_state;
+                \<CR>end;
+                \<CR>
+                \<CR><c-d>always_comb
+                \<CR>case (state)
+                \<CR>IDLE    : next_state = RUN;
+                \<CR>RUN     : next_state = IDLE;
+                \<CR>default : next_state = IDLE;
+                \<CR>endcase;
+                \<CR>
+                \<CR><c-d>always_ff @ (posedge i_clk)
+                \<CR>begin
+                \<CR>if (i_reset == 1'b1) begin
+                \<CR>state_machine_output <= 1'b0;
+                \<CR>end else begin
+                \<CR>case (state)
+                \<CR>IDLE    : state_machine_output <= '0';
+                \<CR>RUN     : state_machine_output <= '1';
+                \<CR>default : state_machine_output <= '0';
+                \<CR>endcase;
+                \<CR>end
+                \<CR><c-d>//-------------------------------------------------------------------------}}}
+" }}}
 " Map Commands ============================================================= {{{
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-H> :HexIncrement<CR>
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-h> :HexDecrement<CR>
     autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-_> :InsertUnderscores<CR>
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <leader>av :FormatMI<CR>
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-w> :WireDeclaration 
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <leader>as :SignalFormat<CR>
+    autocmd FileType verilog_systemverilog :nnoremap <buffer> <A-s> :LogicDeclaration 
 " }}}
 
 augroup END " }}}
@@ -1149,8 +1523,7 @@ augroup template_settings
     autocmd BufNewFile * silent %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 
     " Update Last Modified header field after each save
-    autocmd BufWritePre *.vhd call LastModified()
-
+    autocmd BufWritePre *.vhd,*.v,*.sv call LastModified()
     " Update module date after each save
     autocmd BufWritePre *.vhd call LastModifiedReg1()
 
@@ -1433,14 +1806,35 @@ endfunction " }}}
 " Return 0 = no comment
 " Return 1 = comment at beginning of line
 " Return 2 = comment not at beginning of line
+" Return 3 = blank line - empty or white spaces only
 function! LineContainsComment()
     let save_cursor = getpos(".")
     execute 'normal g_'
     let CommentCheck = search("--", 'bn', line("."))
     execute 'normal ^'
-    if CommentCheck == 0
+    if match(getline("."),"^\\s*$") != -1
+        let CommentOutput = 3
+    elseif CommentCheck == 0
         let CommentOutput = 0
     elseif getline(".")[col(".")-1] == '-'
+        let CommentOutput = 1
+    else
+        let CommentOutput = 2
+    endif
+    call setpos('.', save_cursor)
+    return CommentOutput
+endfunction
+
+function! LineContainsCommentVerilog()
+    let save_cursor = getpos(".")
+    execute 'normal g_'
+    let CommentCheck = search("//", 'bn', line("."))
+    execute 'normal ^'
+    if match(getline("."),"^\\s*$") != -1
+        let CommentOutput = 3
+    elseif CommentCheck == 0
+        let CommentOutput = 0
+    elseif getline(".")[col(".")-1] == '/'
         let CommentOutput = 1
     else
         let CommentOutput = 2
