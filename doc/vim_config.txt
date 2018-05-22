@@ -217,19 +217,23 @@ ALIGN~
 ,C		toggle color column(s)
 ,w		toggle line wrap
 ,av		align vhdl entity, component, instance
-,as		align vhdl signals and constants
+                align verilog module and instance
+,as		align vhdl/verilog signals and constants
 ,ic		toggle invisible characters
 
 MACRO~
 qa	q	begin (end) recording macro in reg a
 @a		run macro in reg a
 
-ABBREVIATIONS~
+VHDL ABBREVIATIONS~
 sl		std_logic
 slv		std_logic_vector
 zoth		(others => '0')
 new_process	template for a new process with clock and synchronous reset
 new_instance	template for a new instance with clock and reset
+new_sm		template for a new state machine composed of 3 processes
+
+VERILOG ABBREVIATIONS~
 new_sm		template for a new state machine composed of 3 processes
 
 USER ADDED FUNCTIONS~
@@ -240,6 +244,8 @@ USER ADDED FUNCTIONS~
 :[range]del_bl	delete blank lines in selection (defaults to entire file)
 :Ctags		create tag file for current directory - vhdl & verilog only
 :Fold {name}    create a fold in common format with {name} as fold comment
+
+VHDL FUNCTIONS~
 <A-s><CR>	create std_logic signal declaration for word under cursor
 <A-s>{number}<CR>
 		create std_logic_vector signal declaration {number} downto 0
@@ -259,6 +265,16 @@ VHDL PLUGIN~
 :Viy		Yank entity under cursor
 :Vii		Insert instance of yanked entity
 :Vic		Insert component of yanked entity
+
+VERILOG FUNCTIONS~
+:Vly            Yank module under cursor
+:Vlp            Insert instance of yanked module
+<A-l><CR>       create logic declaration for word under cursor
+<A-l>{number}<CR>
+                create logic declaration with range [{number}:0]
+<A-w><CR>       create wire declaration for word under cursor
+<A-w>{number}<CR>
+                create wire declaration with range [{number}:0]
 
 ==============================================================================
 LICENSE                                                 *vim_config-license*
