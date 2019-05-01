@@ -1,6 +1,6 @@
 " VIMRC HEADER ============================================================= {{{
 
-"  Last Modified:   22 May 2018  03:04PM
+"  Last Modified:   04 Mar 2019  11:26AM
 
 "  Documentation: type :help vim_config or open doc/vim_config.txt
 
@@ -754,7 +754,7 @@ augroup END " }}}
 
 augroup filetype_verilog
     autocmd!
-    autocmd BufEnter,BufWrite *.veo setfiletype verilog_systemverilog
+    autocmd BufEnter,BufWrite *.veo,*.svh setfiletype verilog_systemverilog
 
 " Increment/Decrement a hex number preceded by h =========================== {{{
 " Insert underscores every 4 characters
@@ -1136,7 +1136,7 @@ autocmd FileType verilog_systemverilog :command! -buffer Vlp
             \|:execute 'normal '.<line1>.'GO<Esc>2i/<Esc>'.LeadingChars.'a-<Esc>a '.FoldName.' <Esc>'.TrailingChars.'a-<Esc>3a{<Esc>'
 " }}}
 " Highlight Tags =========================================================== {{{
-    autocmd BufRead,BufNewFile,BufEnter *.v,*.sv 
+    autocmd BufRead,BufNewFile,BufEnter *.v,*.sv,*.svh 
                 \:if(filereadable("tags.vim"))
                 \|  :silent source tags.vim
                 \|:endif
@@ -1343,7 +1343,7 @@ nnoremap g, g,zvzz15
 " Be sure to set the path to the project root to get all files in the design
 "cabbrev ctags silent !ctags -R --languages=vhdl,verilog --vhdl-kinds=e --verilog-kinds=m<CR>:redraw!<CR>
 command! Ctags 
-            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do,verilog:+.sv --languages=vhdl,verilog,tcl --vhdl-kinds=efPptTcf --verilog-kinds=m --tcl-kinds=p<CR>'
+            \:execute 'normal :silent !ctags -R <CR>'
             \|:redraw!
             \|:split tags
             \|:silent %s/^\([^	:]*:\)\=\([^	]*\).*/syntax keyword Tag \2/
@@ -1353,6 +1353,10 @@ command! Ctags
             \|  :silent source tags.vim
             \|:endif
             \|:noh
+
+"            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do --languages=vhdl,verilog,SystemVerilog,tcl --kinds-vhdl=efPptTcf --kinds-verilog=m --kinds-tcl=p --kinds-SystemVerilog=mCIKST<CR>'
+"            \:execute 'normal :silent !ctags -R --langmap=tcl:+.xdc+.do,verilog:+.sv+.svh --languages=vhdl,verilog,tcl --vhdl-kinds=efPptTcf --verilog-kinds=m --tcl-kinds=p<CR>'
+
 
 " Open File Manager or Terminal at the current working directory or the location
 " of the current file. I was using the vim-gtfo plugin; however, it does not
@@ -1523,7 +1527,7 @@ augroup template_settings
     autocmd BufNewFile * silent %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 
     " Update Last Modified header field after each save
-    autocmd BufWritePre *.vhd,*.v,*.sv call LastModified()
+    autocmd BufWritePre *.vhd,*.v,*.sv,*.svh call LastModified()
     " Update module date after each save
     autocmd BufWritePre *.vhd call LastModifiedReg1()
 
@@ -1625,7 +1629,7 @@ function! GenerateCommentString()
     set commentstring=\-\-%s
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
     set commentstring=\ \#%s
-  elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
+  elseif ext == 'v' || ext == 'sv' || ext == 'svh' || ext == 'c' || ext == 'h'
     set commentstring=\/\/%s
   elseif &filetype == 'vim'
     set commentstring=\ \"%s
@@ -1648,7 +1652,7 @@ function! Visual_comment()
     silent s:^:\-\-:g
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
     silent s:^:\#:g
-  elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
+  elseif ext == 'v' || ext == 'sv' || ext == 'svh' || ext == 'c' || ext == 'h'
     silent s:^:\/\/:g
   elseif ext == 'm'
     silent s:^:\%:g
@@ -1669,7 +1673,7 @@ function! Visual_uncomment()
     silent! s:^\s*\-\-::g
   elseif ext == 'xdc' || ext == 'ucf' || ext == 'sdc' || ext == 'tcl' || ext == 'qsf' || ext == 'do'
     silent! s:^\s*\#::g
-  elseif ext == 'v' || ext == 'sv' || ext == 'c' || ext == 'h'
+  elseif ext == 'v' || ext == 'sv' || ext == 'svh' || ext == 'c' || ext == 'h'
     silent! s:^\s*\/\/::g
   elseif ext == 'm'
     silent! s:^\s*\%::g
@@ -1701,7 +1705,7 @@ endfunction " }}}
 function! LastModified()
   if &modified
     let save_cursor = getpos(".")
-    let n = min([20, line("$")])
+    let n = min([50, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}Last Modified:\).*#\1' .
           \ strftime('   %d %b %Y  %I:%M%p') . '#e'
     call histdel('search', -1)
