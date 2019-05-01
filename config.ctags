@@ -1,0 +1,5 @@
+--languages=vhdl,verilog,SystemVerilog
+--kinds-SystemVerilog=cfmtCIMKST
+--kinds-vhdl=efPptTcf
+--kinds-verilog=mft
+#--kinds-tcl=p
